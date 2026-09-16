@@ -37,7 +37,7 @@ body {
     position: relative;
 }
 
-/* --- KENDİLİĞİNDEN AKAN VE KARIŞAN İLLÜSTRASYON ARKA PLANI --- */
+/* --- ORGANİK AKIŞKAN VE KARIŞAN ARKA PLAN --- */
 .fluid-bg {
     position: fixed;
     top: 0;
@@ -50,53 +50,61 @@ body {
     pointer-events: none;
 }
 
-/* Arka planda süzülen ve renkleri birbirine geçiren akışkan katmanlar */
 .fluid-bg::before,
 .fluid-bg::after {
     content: '';
     position: absolute;
-    width: 140vw;
-    height: 140vh;
-    top: -20vh;
-    left: -20vw;
-    filter: blur(70px);
-    opacity: 0.85; /* Renklerin net görünmesi için yüksek */
+    width: 180vw;
+    height: 180vh;
+    top: -40vh;
+    left: -40vw;
+    filter: blur(90px);
+    opacity: 0.8;
     mix-blend-mode: screen;
 }
 
+/* Birinci katman: Kırmızı ve bordo tonların akışkan döngüsü */
 .fluid-bg::before {
-    background: radial-gradient(circle at 30% 30%, var(--color-red-bright) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, var(--color-burgundy) 0%, transparent 60%);
-    animation: flowAnimation1 12s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 20% 30%, var(--color-red-bright) 0%, transparent 45%),
+                radial-gradient(circle at 80% 70%, var(--color-burgundy) 0%, transparent 55%);
+    animation: organicFlow1 18s ease-in-out infinite alternate;
 }
 
+/* İkinci katman: Turkuaz ve mor tonların harmanlanma döngüsü */
 .fluid-bg::after {
-    background: radial-gradient(circle at 70% 30%, var(--color-turquoise) 0%, transparent 50%),
-                radial-gradient(circle at 30% 70%, var(--color-purple-dark) 0%, transparent 60%);
-    animation: flowAnimation2 16s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 80% 20%, var(--color-turquoise) 0%, transparent 45%),
+                radial-gradient(circle at 30% 80%, var(--color-purple-dark) 0%, transparent 55%);
+    animation: organicFlow2 22s ease-in-out infinite alternate;
 }
 
-@keyframes flowAnimation1 {
+/* Tamamen organik, sıvı gibi esneyen keyframe animasyonları */
+@keyframes organicFlow1 {
     0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
+        transform: translate(0%, 0%) scale(1) rotate(0deg);
     }
-    50% {
-        transform: translate(-50px, 40px) scale(1.2) rotate(8deg);
+    33% {
+        transform: translate(8%, -12%) scale(1.15) rotate(45deg);
+    }
+    66% {
+        transform: translate(-10%, 8%) scale(0.95) rotate(90deg);
     }
     100% {
-        transform: translate(40px, -50px) scale(1.1) rotate(-8deg);
+        transform: translate(5%, 15%) scale(1.1) rotate(135deg);
     }
 }
 
-@keyframes flowAnimation2 {
+@keyframes organicFlow2 {
     0% {
-        transform: translate(0, 0) scale(1.1) rotate(0deg);
+        transform: translate(0%, 0%) scale(1.1) rotate(0deg);
     }
-    50% {
-        transform: translate(50px, -40px) scale(1.25) rotate(-8deg);
+    33% {
+        transform: translate(-10%, 10%) scale(0.95) rotate(-50deg);
+    }
+    66% {
+        transform: translate(12%, -8%) scale(1.2) rotate(-100deg);
     }
     100% {
-        transform: translate(-40px, 50px) scale(1) rotate(8deg);
+        transform: translate(-5%, -15%) scale(1.05) rotate(-150deg);
     }
 }
 /* ---------------------------------------------------------------- */
