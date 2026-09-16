@@ -1,8 +1,4 @@
-Harika! `Bölüm 3: İlk Kodumuz, setup() & loop() Mantığı ve Derleme` başlığı altında, sitene doğrudan kopyalayıp yapıştırabileceğin, "yapay zeka kokmayan", akıcı ve son derece öğretici içeriği hazırladım.
-
----
-
-# Bölüm 3: İlk Kodumuz, setup() & loop() Mantığı ve Derleme
+# Bölüm 3:setup() & loop() Mantığı ve Derleme
 
 Donanım dünyasının "Hello World" uygulamasıyla ve Arduino'nun kalbini oluşturan temel yapı taşlarıyla devam ediyoruz. Kartımızı bilgisayara bağlayıp ilk kodumuzu çalıştıracağız.
 
