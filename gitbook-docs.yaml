@@ -1,6 +1,0 @@
-root: ./
-site:
-  title: "Arduino Dersleri"
-  structure:
-    pages:
-      - file: lesson-2.md
