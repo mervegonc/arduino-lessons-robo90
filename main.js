@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.insertBefore(fluidBg, document.body.firstChild);
     }
 
-    // 2. KESİNTİSİZ GLOBAL MÜZİK YÖNETİMİ
+    // 2. KESİNTİSİZ GLOBAL MÜZİK VE KONTROL BUTONU
     let audio = document.getElementById('global-bg-music');
     
     if (!audio) {
@@ -17,25 +17,65 @@ document.addEventListener("DOMContentLoaded", function() {
         audio.volume = 0.4;
         document.body.appendChild(audio);
 
-        // Kaldığı zamanı hafızadan al
+        // Ses açma/kapama butonunu ekle
+        const soundBtn = document.createElement('button');
+        soundBtn.id = 'sound-toggle-btn';
+        soundBtn.innerHTML = '🔊 Müzik: Açık';
+        soundBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(13, 26, 47, 0.8);
+            color: #09D8C7;
+            border: 1px solid rgba(9, 216, 199, 0.4);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        `;
+        document.body.appendChild(soundBtn);
+
+        // Daha önceki ses tercihini veya zamanını al
         let savedTime = localStorage.getItem('globalMusicTime');
         if (savedTime) {
             audio.currentTime = parseFloat(savedTime);
         }
 
+        let isMuted = localStorage.getItem('globalMusicMuted') === 'true';
+        if (isMuted) {
+            audio.muted = true;
+            soundBtn.innerHTML = '🔇 Müzik: Kapalı';
+            soundBtn.style.opacity = '0.6';
+        }
+
+        // Butona tıklandığında sesi aç/kapat
+        soundBtn.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            if (audio.muted) {
+                soundBtn.innerHTML = '🔇 Müzik: Kapalı';
+                soundBtn.style.opacity = '0.6';
+                localStorage.setItem('globalMusicMuted', 'true');
+            } else {
+                soundBtn.innerHTML = '🔊 Müzik: Açık';
+                soundBtn.style.opacity = '1';
+                localStorage.setItem('globalMusicMuted', 'false');
+                audio.play();
+            }
+        });
+
         // Müziği oynatmayı dene
         let playPromise = audio.play();
-        
         if (playPromise !== undefined) {
             playPromise.catch(() => {
-                // Tarayıcı engellerse, ana sayfa dahil herhangi bir yere ilk tıklamada başlat
                 const startAudio = () => {
-                    audio.play();
-                    localStorage.setItem('globalMusicPlaying', 'true');
+                    if (!audio.muted) audio.play();
                     document.removeEventListener('click', startAudio);
                     document.removeEventListener('keydown', startAudio);
                 };
-                
                 document.addEventListener('click', startAudio);
                 document.addEventListener('keydown', startAudio);
             });
