@@ -27,8 +27,7 @@ Arduino projeleri genel olarak üç temel katmandan oluşur:
 ## 4. Temel Kod İskeleti (Boilerplate)
 Her Arduino programı (Sketch), temel olarak iki ana fonksiyondan oluşur. Bu yapı, tüm Arduino kodlarının temel şablonunu oluşturur:
 
-```cpp
-/*
+<pre><code class="language-cpp">/*
  * Proje Adı: Temel Arduino Kod İskeleti
  * Açıklama: setup ve loop fonksiyonlarının çalışma mantığı.
  */
@@ -52,3 +51,4 @@ void loop() {
   // digitalWrite(13, LOW);  // LED'i söndür
   // delay(1000);            // 1 saniye bekle
 }
+</code></pre>
