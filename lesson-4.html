@@ -4,39 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bölüm 4: Dijital Pinler, pinMode, digitalWrite ve digitalRead</title>
+    <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-color: #38bdf8;
-            --border-color: #334155;
-            --code-bg: #090d16;
-            --note-bg: rgba(56, 189, 248, 0.05);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* Bölüm sayfalarına özel ek düzenlemeler */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.7;
+            height: auto;
+            overflow: auto;
             padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
         }
 
         .container {
             width: 100%;
             max-width: 800px;
+            margin: 0 auto;
         }
 
         .back-link {
@@ -56,7 +44,7 @@
             font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            background: linear-gradient(135deg, var(--sunlit-clay) 0%, var(--tangerine-dream) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -71,7 +59,7 @@
 
         h2 {
             font-size: 1.3rem;
-            color: var(--accent-color);
+            color: var(--sunlit-clay);
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border-color);
@@ -80,6 +68,7 @@
         p {
             color: var(--text-secondary);
             margin-bottom: 1rem;
+            line-height: 1.7;
         }
 
         ul, ol {
@@ -93,6 +82,7 @@
 
         li {
             color: var(--text-secondary);
+            line-height: 1.6;
         }
 
         li strong {
@@ -100,7 +90,7 @@
         }
 
         pre {
-            background-color: var(--code-bg) !important;
+            background-color: var(--disabled-bg) !important;
             border-radius: 8px;
             padding: 1.25rem;
             overflow-x: auto;
@@ -114,12 +104,13 @@
         }
 
         .pro-tip {
-            background-color: var(--note-bg);
-            border-left: 4px solid var(--accent-color);
+            background-color: rgba(247, 187, 103, 0.05);
+            border-left: 4px solid var(--sunlit-clay);
             padding: 1rem;
             border-radius: 0 8px 8px 0;
             margin-top: 1rem;
             color: var(--text-secondary);
+            line-height: 1.6;
         }
 
         .pro-tip strong {
@@ -191,7 +182,7 @@ int durum = 0;
 
 void setup() {
   pinMode(butonPin, INPUT); // 7 numaralı pini giriş olarak ayarladık
-  Serial.begin(9600);       // Seri haberleşmeyi başlattık
+  Serial.begin(9600);        // Seri haberleşmeyi başlattık
 }
 
 void loop() {
@@ -210,6 +201,7 @@ void loop() {
         </footer>
     </div>
 
+    <!-- Kod renklendirme betiği -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
