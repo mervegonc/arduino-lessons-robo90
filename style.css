@@ -1,0 +1,175 @@
+/* style.css - Arduino Ders Serisi Ortak Tasarım Sistemi */
+:root {
+    /* Gönderdiğin Renk Paleti */
+    --sunlit-clay: #F7BB67;
+    --tangerine-dream: #F3946B;
+    --pale-oak: #D3BEA3;
+    --emerald-depths: #006555;
+    --pacific-blue: #6BB3C0;
+
+    /* Arayüz Renk Atamaları */
+    --bg-color: #1a1614;         /* Konuya uygun koyu sıcak zemin */
+    --card-bg: #26201c;          
+    --text-primary: #fdfbf7;
+    --text-secondary: #D3BEA3;   /* Pale Oak tonu metin rengi olarak */
+    --accent-color: #F7BB67;     /* Sunlit Clay vurgu rengi */
+    --accent-hover: #F3946B;     
+    --border-color: #3e332c;
+    
+    --disabled-bg: #1f1b18;
+    --disabled-border: #2c2521;
+    --disabled-text: #594d45;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    overflow: hidden;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--sunlit-clay) 0%, var(--tangerine-dream) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* 34 kutunun tüm ekrana sığması için Grid Yapısı */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr); 
+    grid-template-rows: repeat(4, 1fr);     
+    gap: 0.5rem;
+    flex-grow: 1;
+    max-height: calc(100vh - 130px);
+}
+
+.lesson-box {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    padding: 0.3rem;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* Kutu içi yazı düzeni: Satır satır sığdırma */
+.lesson-box .lesson-num {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    margin-bottom: 0.1rem;
+}
+
+.lesson-box .lesson-short-title {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    line-height: 1.1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* En fazla 2 satır gösterir, kutudan taşmaz */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.lesson-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--sunlit-clay);
+    background-color: var(--emerald-depths); /* Üzerine gelince paletten Emerald Depths */
+    color: var(--sunlit-clay);
+    box-shadow: 0 4px 12px rgba(0, 101, 85, 0.4);
+    z-index: 10;
+}
+
+.lesson-box:hover .lesson-short-title {
+    color: #fdfbf7;
+}
+
+/* Henüz eklenmemiş (boş) dersler için pasif stil */
+.lesson-box.disabled {
+    background-color: var(--disabled-bg);
+    border-color: var(--disabled-border);
+    color: var(--disabled-text);
+    pointer-events: none;
+}
+
+.lesson-box.disabled .lesson-num,
+.lesson-box.disabled .lesson-short-title {
+    color: var(--disabled-text);
+}
+
+/* Hover Tooltip (Üzerine gelince çıkacak tam başlık) */
+.lesson-box::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background-color: #120e0c;
+    color: var(--sunlit-clay);
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.lesson-box:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+}
+
+footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.4rem;
+}
+
+footer a {
+    color: var(--sunlit-clay);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
