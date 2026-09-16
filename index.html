@@ -15,6 +15,9 @@
             --accent-color: #38bdf8;
             --accent-hover: #0ea5e9;
             --border-color: #334155;
+            --disabled-bg: #111827;
+            --disabled-border: #1f2937;
+            --disabled-text: #4b5563;
         }
 
         * {
@@ -27,28 +30,22 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 700px;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            overflow: hidden;
         }
 
         header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -56,60 +53,85 @@
 
         header p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 0.85rem;
         }
 
-        .card-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        /* 34 kutunun tüm ekrana sığması için Grid Yapısı */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr); /* 9 sütun */
+            grid-template-rows: repeat(4, 1fr);     /* 4 satır (36 hücre, 34'ü dolu) */
+            gap: 0.6rem;
+            flex-grow: 1;
+            max-height: calc(100vh - 140px);
         }
 
-        .lesson-card {
+        .lesson-box {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.25rem 1.5rem;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             text-decoration: none;
             color: var(--text-primary);
-            transition: all 0.25s ease;
-        }
-
-        .lesson-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.15);
-        }
-
-        .lesson-info h3 {
-            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.2s ease;
         }
 
-        .lesson-info span {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .lesson-box:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            z-index: 10;
         }
 
-        .arrow {
-            color: var(--text-secondary);
-            transition: transform 0.2s ease;
+        /* Henüz eklenmemiş (boş) dersler için pasif stil */
+        .lesson-box.disabled {
+            background-color: var(--disabled-bg);
+            border-color: var(--disabled-border);
+            color: var(--disabled-text);
+            pointer-events: none;
         }
 
-        .lesson-card:hover .arrow {
-            color: var(--accent-color);
-            transform: translateX(4px);
+        /* Hover Tooltip (Üzerine gelince çıkacak başlık) */
+        .lesson-box::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 115%;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background-color: #090d16;
+            color: var(--text-primary);
+            padding: 0.4rem 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 400;
+            white-space: nowrap;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .lesson-box:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
         }
 
         footer {
-            margin-top: 3rem;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
+            margin-top: 0.5rem;
         }
 
         footer a {
@@ -124,66 +146,50 @@
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Arduino Ders Serisi</h1>
-            <p>Sıfırdan ileri seviyeye modern gömülü sistem öğrenim günlüğüm.</p>
-        </header>
+    <header>
+        <h1>Arduino Ders Serisi</h1>
+        <p>Sıfırdan ileri seviyeye modern gömülü sistem öğrenim günlüğüm</p>
+    </header>
 
-        <div class="card-list">
-            <a href="./lesson-1" class="lesson-card">
-                <div class="lesson-info">
-                    <h3>Bölüm 1: Giriş ve Temel Kavramlar</h3>
-                    <span>Temel Donanım ve Kavramsal Giriş</span>
-                </div>
-                <div class="arrow">➔</div>
-            </a>
-
-            <a href="./lesson-2" class="lesson-card">
-                <div class="lesson-info">
-                    <h3>Bölüm 2: Arduino Nedir ve Ekosistem Mimarisi</h3>
-                    <span>Bileşenler, Çalışma Mantığı ve Mimari</span>
-                </div>
-                <div class="arrow">➔</div>
-            </a>
-
-            <a href="./lesson-3" class="lesson-card">
-                <div class="lesson-info">
-                    <h3>Bölüm 3: setup() & loop() Mantığı ve Derleme</h3>
-                    <span>İlk Kod, İskelet Yapı ve Derleme Süreci</span>
-                </div>
-                <div class="arrow">➔</div>
-            </a>
-
-            <a href="./lesson-4" class="lesson-card">
-                <div class="lesson-info">
-                    <h3>Bölüm 4: Dijital Pinler, pinMode, digitalWrite ve digitalRead</h3>
-                    <span>Bileşenler, Çalışma Mantığı ve Mimari</span>
-                </div>
-                <div class="arrow">➔</div>
-            </a>
-
-            <a href="./lesson-5" class="lesson-card">
-                <div class="lesson-info">
-                    <h3>Bölüm 5: Arduino Syntax (Söz Dizimi), White Space ve Yorum Satırları</h3>
-                    <span>İlk Kod, İskelet Yapı ve Derleme Süreci</span>
-                </div>
-                <div class="arrow">➔</div>
-            </a>
-
-            <a href="./lesson-6" class="lesson-card">
-                <div class="lesson-info">
-                    <h3>Bölüm 6: Arduino Syntax - Noktalı Virgül (;) Kullanımı</h3>
-                    <span>İlk Kod, İskelet Yapı ve Derleme Süreci</span>
-                </div>
-                <div class="arrow">➔</div>
-            </a>
-        </div>
-
-        <footer>
-            <p>Built with passion by <a href="https://github.com/mervegonc" target="_blank">Merve Göncü</a> • Hosted on GitHub Pages</p>
-        </footer>
+    <div class="grid-container" id="gridContainer">
+        <!-- JavaScript ile 34 ders otomatik yerleştirilecektir -->
     </div>
 
+    <footer>
+        <p>Built with passion by <a href="https://github.com/mervegonc" target="_blank">Merve Göncü</a> • Hosted on GitHub Pages</p>
+    </footer>
+
+    <script>
+        // Hazır olan derslerin başlıkları
+        const lessonsData = {
+            1: "Giriş ve Temel Kavramlar",
+            2: "Arduino Nedir ve Ekosistem Mimarisi",
+            3: "setup() & loop() Mantığı ve Derleme",
+            4: "Dijital Pinler, pinMode, digitalWrite ve digitalRead",
+            5: "Arduino Syntax (Söz Dizimi), White Space ve Yorum Satırları",
+            6: "Arduino Syntax - Noktalı Virgül (;) Kullanımı"
+        };
+
+        const container = document.getElementById('gridContainer');
+        const totalLessons = 34;
+
+        for (let i = 1; i <= totalLessons; i++) {
+            const a = document.createElement('a');
+            a.className = 'lesson-box';
+            
+            if (lessonsData[i]) {
+                // Hazır olan dersler
+                a.href = `./lesson-${i}`;
+                a.setAttribute('data-title', `Bölüm ${i}: ${lessonsData[i]}`);
+            } else {
+                // Henüz içerikleri eklenmemiş dersler
+                a.classList.add('disabled');
+                a.setAttribute('data-title', `Bölüm ${i}: Yakında...`);
+            }
+            
+            a.textContent = i;
+            container.appendChild(a);
+        }
+    </script>
 </body>
 </html>
