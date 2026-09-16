@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.insertBefore(fluidBg, document.body.firstChild);
     }
 
-    // 2. KESİNTİSİZ MÜZİK YÖNETİMİ (GLOBAL SESSION STORAGE)
-    // Sayfalar arası geçişte sesin kopmaması için sessionStorage kullanıyoruz
-    let audio = window.parent.document.getElementById('global-bg-music');
+    // 2. KESİNTİSİZ GLOBAL MÜZİK YÖNETİMİ
+    let audio = document.getElementById('global-bg-music');
     
     if (!audio) {
+        // Eğer sayfada müzik elementi yoksa oluştur
         audio = document.createElement('audio');
         audio.id = 'global-bg-music';
         audio.src = 'music/music.mp3';
@@ -18,30 +18,32 @@ document.addEventListener("DOMContentLoaded", function() {
         audio.volume = 0.4;
         document.body.appendChild(audio);
 
-        // Hafızdaki son konumu al
-        let savedTime = sessionStorage.getItem('musicTime');
+        // Daha önce kaydedilmiş bir zaman varsa oradan başlat
+        let savedTime = localStorage.getItem('globalMusicTime');
         if (savedTime) {
             audio.currentTime = parseFloat(savedTime);
         }
 
+        // Müziği oynatmayı dene
         audio.play().catch(() => {
+            // Tarayıcı engeline takılırsa ilk tıklamada başlat
             document.addEventListener('click', () => {
                 audio.play();
             }, { once: true });
         });
     }
 
-    // Sürekli anlık zamanı kaydet
+    // Her yarım saniyede bir müziğin anlık saniyesini localStorage'a kaydet
     setInterval(() => {
-        if(audio && !audio.paused) {
-            sessionStorage.setItem('musicTime', audio.currentTime);
+        if (audio && !audio.paused) {
+            localStorage.setItem('globalMusicTime', audio.currentTime);
         }
     }, 500);
 
-    // Sayfa değişirken müziğin anlık durumunu koru
+    // Sayfa kapanırken veya değiştirilirken zamanı son kez sabitle
     window.addEventListener('beforeunload', () => {
-        if(audio) {
-            sessionStorage.setItem('musicTime', audio.currentTime);
+        if (audio) {
+            localStorage.setItem('globalMusicTime', audio.currentTime);
         }
     });
 });
