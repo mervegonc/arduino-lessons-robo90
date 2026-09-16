@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let audio = document.getElementById('global-bg-music');
     
     if (!audio) {
-        // Eğer sayfada müzik elementi yoksa oluştur
         audio = document.createElement('audio');
         audio.id = 'global-bg-music';
         audio.src = 'music/music.mp3';
@@ -18,29 +17,38 @@ document.addEventListener("DOMContentLoaded", function() {
         audio.volume = 0.4;
         document.body.appendChild(audio);
 
-        // Daha önce kaydedilmiş bir zaman varsa oradan başlat
+        // Kaldığı zamanı hafızadan al
         let savedTime = localStorage.getItem('globalMusicTime');
         if (savedTime) {
             audio.currentTime = parseFloat(savedTime);
         }
 
         // Müziği oynatmayı dene
-        audio.play().catch(() => {
-            // Tarayıcı engeline takılırsa ilk tıklamada başlat
-            document.addEventListener('click', () => {
-                audio.play();
-            }, { once: true });
-        });
+        let playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // Tarayıcı engellerse, ana sayfa dahil herhangi bir yere ilk tıklamada başlat
+                const startAudio = () => {
+                    audio.play();
+                    localStorage.setItem('globalMusicPlaying', 'true');
+                    document.removeEventListener('click', startAudio);
+                    document.removeEventListener('keydown', startAudio);
+                };
+                
+                document.addEventListener('click', startAudio);
+                document.addEventListener('keydown', startAudio);
+            });
+        }
     }
 
-    // Her yarım saniyede bir müziğin anlık saniyesini localStorage'a kaydet
+    // Sürekli zamanı kaydet
     setInterval(() => {
         if (audio && !audio.paused) {
             localStorage.setItem('globalMusicTime', audio.currentTime);
         }
     }, 500);
 
-    // Sayfa kapanırken veya değiştirilirken zamanı son kez sabitle
     window.addEventListener('beforeunload', () => {
         if (audio) {
             localStorage.setItem('globalMusicTime', audio.currentTime);
