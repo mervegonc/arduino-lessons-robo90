@@ -43,9 +43,6 @@
             const a = document.createElement('a');
             a.className = 'lesson-box';
             
-            const titleText = lessonsData[i] ? lessonsData[i] : "Yakında...";
-            a.setAttribute('data-title', `Bölüm ${i}: ${titleText}`);
-
             if (lessonsData[i]) {
                 a.href = `./lesson-${i}`;
                 a.innerHTML = `
