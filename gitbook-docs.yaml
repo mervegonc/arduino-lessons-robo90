@@ -1,5 +1,6 @@
 root: ./
 site:
+  title: "Arduino Dersleri"
   structure:
     pages:
       - lesson-2.md
