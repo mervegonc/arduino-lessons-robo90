@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 2: Arduino Nedir ve Ekosistem Mimarisi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Kod renklendirmesi için Prism.js (isteğe bağlı ama çok şık durur) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --border-color: #334155;
+            --code-bg: #090d16;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        li {
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--code-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+
+        <header>
+            <h1>Bölüm 2: Arduino Nedir ve Ekosistem Mimarisi</h1>
+        </header>
+
+        <section>
+            <h2>1. Genel Bakış ve Tanım</h2>
+            <p>Arduino, tek başına sadece fiziksel bir mikrodenetleyici kartından ibaret değildir; donanım, yazılım (IDE), sensör/modül çeşitliliği, hazır kütüphaneler ve geniş bir geliştirici topluluğundan oluşan açık kaynaklı bir gömülü sistem ekosistemidir.</p>
+            <p>Geleneksel mikrodenetleyici geliştirme süreçlerinde karşılaşılan karmaşık donanım programlayıcıları ve yüksek maliyetli/zorlu geliştirme ortamlarını basitleştirerek hobi severlerden mühendislere kadar herkesin erişebileceği bir standart sunmuştur.</p>
+        </section>
+
+        <section>
+            <h2>2. Ekosistem Bileşenleri</h2>
+            <ul>
+                <li><strong>Donanım (Hardware):</strong> Üzerinde mikrodenetleyici barındıran, dijital ve analog giriş/çıkış pinlerine sahip fiziksel kartlar (Örn: Arduino Uno, Nano, Mega).</li>
+                <li><strong>Yazılım Ortamı (IDE):</strong> Kodların yazıldığı, derlendiği ve karta yüklendiği geliştirme ortamı.</li>
+                <li><strong>Kütüphaneler (Libraries):</strong> Sensörlerin ve modüllerin (LCD ekran, motor sürücü vb.) mikrodenetleyici ile kolayca haberleşmesini sağlayan hazır fonksiyon paketleri (<code>#include &lt;KutuphaneAdi.h&gt;</code>).</li>
+                <li><strong>Açık Kaynak Kültür (Open Source):</strong> Geliştirilen devre şemalarının, pcb tasarımlarının ve kaynak kodlarının toplulukla paylaşılması ve ortak geliştirilmesi.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Temel Çalışma Mantığı ve Mimari</h2>
+            <p>Arduino projeleri genel olarak üç temel katmandan oluşur:</p>
+            <ul>
+                <li><strong>Giriş (Input):</strong> Sensörler, butonlar veya potansiyometreler aracılığıyla fiziksel dünyadan verilerin (sıcaklık, ışık, mesafe, voltaj) okunması.</li>
+                <li><strong>İşlem (Processing):</strong> Mikrodenetleyicinin (ATmega serisi vb.) gelen veriyi yazılan algoritma, mantıksal koşullar (<code>if/else</code>) ve döngülerle işlemesi.</li>
+                <li><strong>Çıktı (Output):</strong> İşlenen verilere göre aktüatörlerin (LED, motor, buzzer, ekran) tetiklenmesi.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>4. Temel Kod İskeleti (Boilerplate)</h2>
+            <p>Her Arduino programı (Sketch), temel olarak iki ana fonksiyondan oluşur. Bu yapı, tüm Arduino kodlarının temel şablonunu oluşturur:</p>
+            
+            <pre><code class="language-cpp">/*
+ * Proje Adı: Temel Arduino Kod İskeleti
+ * Açıklama: setup ve loop fonksiyonlarının çalışma mantığı.
+ */
+
+// Global değişken tanımlamaları ve kütüphane eklemeleri burada yapılır.
+
+void setup() {
+  // 1. Defaya mahsus çalıştırılan başlangıç ayarları
+  // Örn: Pin modlarının belirlenmesi, Seri haberleşmenin başlatılması
+  
+  // Serial.begin(9600); // Seri haberleşmeyi başlatır
+  // pinMode(13, OUTPUT);  // 13 numaralı pini çıkış olarak ayarlar
+}
+
+void loop() {
+  // Sonsuz döngü: Program çalıştığı sürece bu blok sürekli baştan sona tekrarlanır.
+  // Örn: Sensör okuma, koşul kontrolü ve çıkış verme işlemleri
+  
+  // digitalWrite(13, HIGH); // LED'i yak
+  // delay(1000);            // 1 saniye bekle
+  // digitalWrite(13, LOW);  // LED'i söndür
+  // delay(1000);            // 1 saniye bekle
+}</code></pre>
+
+            <div class="image-container">
+                <img src="images/arduino-uno.jpg" alt="Arduino Uno Kartı">
+            </div>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+</body>
+</html>
