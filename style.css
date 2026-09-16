@@ -124,9 +124,12 @@ header {
 header h1 {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #730215; /* Başlığın rengi tamamen bu olur */
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
+    /* Koyu kırmızı yerine turkuazdan açık renge tatlı bir geçiş yapıldı */
+    background: linear-gradient(135deg, var(--color-turquoise) 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Eski tek renk kırmızıyı iptal ettik */
+    color: transparent;
 }
 
 header p {
