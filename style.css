@@ -1,4 +1,4 @@
-/* style.css - Arduino Ders Serisi (İllüstratif Akışkan Arka Plan) */
+/* style.css - Arduino Ders Serisi */
 :root {
     --color-turquoise: #09D8C7;
     --color-navy-light: #17364F;
@@ -8,15 +8,15 @@
     --color-burgundy: #500A1F;
 
     --bg-color: #0D1A2F;          
-    --card-bg: rgba(23, 54, 79, 0.82); /* Kartlar şık bir buzlu cam efekti alır */
+    --card-bg: rgba(23, 54, 79, 0.75); /* Kartlar arkadaki renklerin akışını gösterecek kadar yarı şeffaf */
     --text-primary: #fdfbf7;       
     --text-secondary: #09D8C7;     
     
     --accent-color: #09D8C7;       
     --accent-hover: #BD0927;       
-    --border-color: rgba(65, 30, 58, 0.9);
+    --border-color: rgba(9, 216, 199, 0.2);
     
-    --disabled-bg: rgba(17, 29, 46, 0.7);
+    --disabled-bg: rgba(17, 29, 46, 0.6);
     --disabled-border: #21121d;
     --disabled-text: #506175;
 }
@@ -41,7 +41,7 @@ body {
     position: relative;
 }
 
-/* --- GÖRSELDEKİ TARZDA AKIŞKAN İLLÜSTRASYON ARKA PLANI --- */
+/* --- NET VE BELİRGİN AKIŞKAN İLLÜSTRASYON ARKA PLANI --- */
 .fluid-bg {
     position: fixed;
     top: 0;
@@ -49,64 +49,61 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    background: radial-gradient(circle at 50% 50%, var(--color-navy-light) 0%, var(--color-navy-dark) 100%);
+    background: var(--color-navy-dark);
     overflow: hidden;
+    pointer-events: none;
 }
 
-/* Akıp giden organik dalga katmanları (İllüstrasyon efekti) */
+/* Arka planda süzülen devasa renkli dalga leke formları */
 .fluid-bg::before,
 .fluid-bg::after {
     content: '';
     position: absolute;
-    width: 140vw;
-    height: 140vh;
-    top: -20vh;
-    left: -20vw;
-    opacity: 0.55;
-    mix-blend-mode: screen;
-    pointer-events: none;
+    width: 120vw;
+    height: 120vh;
+    top: -10vh;
+    left: -10vw;
+    filter: blur(60px);
+    opacity: 0.75; /* Renklerin çok daha net görünmesi için artırıldı */
 }
 
-/* 1. Katman: Kırmızı/Bordo Akışkan Dalga */
 .fluid-bg::before {
-    background: radial-gradient(ellipse at 30% 40%, var(--color-red-bright) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 60%, var(--color-burgundy) 0%, transparent 60%);
-    animation: waveFlow1 18s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 20% 30%, var(--color-red-bright) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--color-burgundy) 0%, transparent 60%);
+    animation: waveMove1 12s ease-in-out infinite alternate;
 }
 
-/* 2. Katman: Turkuaz ve Mor Dalga Döngüsü */
 .fluid-bg::after {
-    background: radial-gradient(ellipse at 80% 20%, var(--color-turquoise) 0%, transparent 45%),
-                radial-gradient(ellipse at 20% 80%, var(--color-purple-dark) 0%, transparent 55%);
-    animation: waveFlow2 22s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 70% 20%, var(--color-turquoise) 0%, transparent 50%),
+                radial-gradient(circle at 30% 80%, var(--color-purple-dark) 0%, transparent 60%);
+    animation: waveMove2 16s ease-in-out infinite alternate;
 }
 
-@keyframes waveFlow1 {
+@keyframes waveMove1 {
     0% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
+        transform: translate(0, 0) scale(1) rotate(0deg);
     }
     50% {
-        transform: translate(-30px, 40px) rotate(5deg) scale(1.1);
+        transform: translate(-40px, 30px) scale(1.15) rotate(5deg);
     }
     100% {
-        transform: translate(40px, -30px) rotate(-5deg) scale(1.05);
+        transform: translate(30px, -40px) scale(1.05) rotate(-5deg);
     }
 }
 
-@keyframes waveFlow2 {
+@keyframes waveMove2 {
     0% {
-        transform: translate(0, 0) rotate(0deg) scale(1.05);
+        transform: translate(0, 0) scale(1.05) rotate(0deg);
     }
     50% {
-        transform: translate(40px, -30px) rotate(-7deg) scale(1.15);
+        transform: translate(40px, -30px) scale(1.2) rotate(-5deg);
     }
     100% {
-        transform: translate(-30px, 30px) rotate(5deg) scale(1);
+        transform: translate(-30px, 40px) scale(1) rotate(5deg);
     }
 }
-/* --------------------------------------------------------- */
+/* ----------------------------------------------------- */
 
-/* Ana Sayfa Özel Düzeni */
 body.home-body {
     height: 100vh;
     overflow: hidden;
@@ -122,7 +119,7 @@ header {
 header h1 {
     font-size: 1.6rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--color-turquoise) 0%, var(--color-red-bright) 100%);
+    background: linear-gradient(135dev, var(--color-turquoise) 0%, var(--color-red-bright) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -132,7 +129,6 @@ header p {
     font-size: 0.85rem;
 }
 
-/* Grid Yapısı */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(9, 1fr); 
@@ -147,7 +143,7 @@ header p {
 
 .lesson-box {
     background-color: var(--card-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     display: flex;
@@ -161,7 +157,7 @@ header p {
     text-align: center;
     position: relative;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .lesson-box .lesson-num {
@@ -221,7 +217,6 @@ header p {
     color: var(--disabled-text);
 }
 
-/* İç Ders Sayfaları (Yazılar ortada, sağda solda illüstrasyon akıyor) */
 .container {
     width: 100%;
     max-width: 800px;
@@ -245,13 +240,13 @@ header p {
 
 section {
     background-color: var(--card-bg);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 1.5rem;
     width: 100%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 section h2 {
