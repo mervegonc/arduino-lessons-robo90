@@ -1,28 +1,24 @@
-/* style.css - Arduino Ders Serisi (5 Renkli Akdeniz Paleti Tasarım Sistemi) */
+/* style.css - Arduino Ders Serisi (Akışkan Arka Planlı Modern Palet) */
 :root {
-    /* Gönderdiğin Orijinal 5 Renk Paleti */
-    --sunlit-clay: #F7BB67;
-    --tangerine-dream: #F3946B;
-    --pale-oak: #D3BEA3;
-    --emerald-depths: #006555;
-    --pacific-blue: #6BB3C0;
+    --color-turquoise: #09D8C7;
+    --color-navy-light: #17364F;
+    --color-navy-dark: #0D1A2F;
+    --color-purple-dark: #411E3A;
+    --color-red-bright: #BD0927;
+    --color-burgundy: #500A1F;
 
-    /* Arayüz Renk Atamaları (Koyu zemin tamamen kaldırıldı, paletin açık ve ferah tonları entegre edildi) */
-    --bg-color: #f5efe6;          /* Pale Oak tonundan türetilmiş ferah, açık zemin */
-    --card-bg: #fdfbf7;          /* Kartlar için saf krem/beyaz tonu */
-    --text-primary: #241e19;     /* Okunabilirliği yüksek koyu toprak metin rengi */
-    --text-secondary: #6b5c51;   /* İkincil metinler için orta ton */
+    --bg-color: #0D1A2F;          
+    --card-bg: rgba(23, 54, 79, 0.85); /* Kartlar hafif yarı şeffaf ki arkadaki akış görünsün */
+    --text-primary: #fdfbf7;       
+    --text-secondary: #09D8C7;     
     
-    --accent-primary: #F7BB67;   /* Sunlit Clay */
-    --accent-secondary: #F3946B; /* Tangerine Dream */
-    --accent-green: #006555;     /* Emerald Depths */
-    --accent-blue: #6BB3C0;      /* Pacific Blue */
+    --accent-color: #09D8C7;       
+    --accent-hover: #BD0927;       
+    --border-color: rgba(65, 30, 58, 0.8);
     
-    --border-color: #e3d5c6;
-    
-    --disabled-bg: #eae3d8;
-    --disabled-border: #d4c5b6;
-    --disabled-text: #a19385;
+    --disabled-bg: rgba(17, 29, 46, 0.7);
+    --disabled-border: #21121d;
+    --disabled-text: #506175;
 }
 
 * {
@@ -42,7 +38,70 @@ body {
     justify-content: space-between;
     padding: 1.5rem;
     overflow-x: hidden;
+    position: relative;
 }
+
+/* --- AKIŞKAN ARKA PLAN ANİMASYONU (FLUID BACKGROUND) --- */
+.fluid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Tüm içeriklerin arkasında kalır */
+    background: linear-gradient(120deg, var(--color-navy-dark), var(--color-navy-light), var(--color-purple-dark), var(--color-burgundy));
+    background-size: 400% 400%;
+    animation: fluidAnimation 15s ease infinite;
+    opacity: 0.9;
+}
+
+/* Renklerin akış döngüsü */
+@keyframes fluidAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Ekstra akışkan yumuşak renk parlamaları (blob efektleri) */
+.fluid-bg::before, .fluid-bg::after {
+    content: '';
+    position: absolute;
+    width: 50vw;
+    height: 50vw;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: floatBlobs 10s alternate infinite ease-in-out;
+}
+
+.fluid-bg::before {
+    background: var(--color-turquoise);
+    top: -10%;
+    left: -10%;
+}
+
+.fluid-bg::after {
+    background: var(--color-red-bright);
+    bottom: -10%;
+    right: -10%;
+    animation-delay: -5s;
+}
+
+@keyframes floatBlobs {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(50px, 30px) scale(1.2);
+    }
+}
+/* ----------------------------------------------------- */
 
 /* Ana Sayfa Özel Düzeni */
 body.home-body {
@@ -54,16 +113,15 @@ header {
     text-align: center;
     margin-bottom: 0.5rem;
     width: 100%;
+    z-index: 2;
 }
 
 header h1 {
     font-size: 1.6rem;
     font-weight: 700;
-    /* Sunlit Clay ve Tangerine Dream geçişli başlık */
-    background: linear-gradient(135deg, var(--sunlit-clay) 0%, var(--tangerine-dream) 100%);
+    background: linear-gradient(135deg, var(--color-turquoise) 0%, var(--color-red-bright) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));
 }
 
 header p {
@@ -81,10 +139,12 @@ header p {
     width: 100%;
     max-width: 1400px;
     max-height: calc(100vh - 130px);
+    z-index: 2;
 }
 
 .lesson-box {
     background-color: var(--card-bg);
+    backdrop-filter: blur(8px); /* Kartların arkasındaki akışkanlığı şık bir buzlu cam efektiyle gösterir */
     border: 1px solid var(--border-color);
     border-radius: 8px;
     display: flex;
@@ -98,32 +158,30 @@ header p {
     text-align: center;
     position: relative;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(211, 190, 163, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Normal durumda Bölüm numarası Sunlit Clay / Tangerine dengesi */
 .lesson-box .lesson-num {
     font-size: 0.85rem;
-    color: var(--emerald-depths); /* Paletten Emerald Depths kullanıldı */
+    color: var(--color-turquoise);
     transition: color 0.2s ease;
 }
 
 .lesson-box .lesson-short-title {
     font-size: 0.65rem;
-    color: var(--text-secondary);
+    color: #a0b2c6;
     line-height: 1.1;
     display: none; 
     max-width: 100%;
     margin-top: 0.2rem;
 }
 
-/* Fare üzerine gelince (Hover) - Pacific Blue ve Emerald Depths buluşması */
 .lesson-box:hover {
     transform: translateY(-2px);
-    border-color: var(--pacific-blue);
-    background-color: var(--pacific-blue); 
-    color: #fdfbf7;
-    box-shadow: 0 4px 12px rgba(107, 179, 192, 0.4);
+    border-color: var(--color-turquoise);
+    background-color: var(--color-turquoise); 
+    color: var(--color-navy-dark);
+    box-shadow: 0 4px 15px rgba(9, 216, 199, 0.4);
     z-index: 10;
 }
 
@@ -133,15 +191,15 @@ header p {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #fdfbf7;
+    color: var(--color-navy-dark);
+    font-weight: 700;
 }
 
 .lesson-box:hover .lesson-num {
     font-size: 0.75rem; 
-    color: var(--sunlit-clay); /* Hover olunca Sunlit Clay ile harika uyum sağlar */
+    color: var(--color-red-bright);
 }
 
-/* Pasif dersler */
 .lesson-box.disabled {
     background-color: var(--disabled-bg);
     border-color: var(--disabled-border);
@@ -160,16 +218,17 @@ header p {
     color: var(--disabled-text);
 }
 
-/* İç Ders Sayfaları İçin Konteyner */
+/* İç Ders Sayfaları İçin Konteyner (Yazılar ortalı, sağda solda arka plan akıyor) */
 .container {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    z-index: 2;
 }
 
 .back-link {
     display: inline-block;
-    color: var(--emerald-depths);
+    color: var(--color-turquoise);
     text-decoration: none;
     margin-bottom: 2rem;
     font-weight: 600;
@@ -178,31 +237,30 @@ header p {
 
 .back-link:hover {
     transform: translateX(-4px);
-    color: var(--tangerine-dream);
+    color: var(--color-red-bright);
 }
 
 section {
     background-color: var(--card-bg);
+    backdrop-filter: blur(10px); /* Bölüm sayfalarındaki kutuların arkasında da akışkanlık hissedilir */
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 1.5rem;
     width: 100%;
-    box-shadow: 0 4px 12px rgba(211, 190, 163, 0.2);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* İç sayfalardaki h2 başlıklar Emerald Depths ve Tangerine uyumunda */
 section h2 {
-    color: var(--emerald-depths);
-    border-bottom: 2px solid var(--sunlit-clay);
+    color: var(--color-turquoise);
+    border-bottom: 2px solid var(--color-red-bright);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
-/* Özel bilgi kutusu (Pro-Tip) - Pacific Blue vurgulu */
 .pro-tip {
-    background-color: rgba(107, 179, 192, 0.1);
-    border-left: 4px solid var(--pacific-blue);
+    background-color: rgba(9, 216, 199, 0.08);
+    border-left: 4px solid var(--color-turquoise);
     padding: 1rem;
     border-radius: 0 8px 8px 0;
     margin-top: 1rem;
@@ -211,18 +269,19 @@ section h2 {
 footer {
     text-align: center;
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: #8fa3bc;
     margin-top: 0.4rem;
     width: 100%;
+    z-index: 2;
 }
 
 footer a {
-    color: var(--emerald-depths);
+    color: var(--color-turquoise);
     text-decoration: none;
     font-weight: 600;
 }
 
 footer a:hover {
-    color: var(--tangerine-dream);
+    color: var(--color-red-bright);
     text-decoration: underline;
 }
