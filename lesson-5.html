@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 5: Arduino Syntax (Söz Dizimi), White Space ve Yorum Satırları</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --border-color: #334155;
+            --code-bg: #090d16;
+            --note-bg: rgba(56, 189, 248, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: der(--text-primary);
+        }
+
+        pre {
+            background-color: var(--code-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        .pro-tip {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .pro-tip strong {
+            color: var(--text-primary);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+
+        <header>
+            <h1>Bölüm 5: Arduino Syntax (Söz Dizimi) ve Temel Kurallar</h1>
+        </header>
+
+        <section>
+            <p>Konuşma dillerinde kurallara tam uymasak bile karşımızdaki kişi bizi anlayabilir. Ancak programlama dillerinde kurallar çok serttir; küçük bir hata kodun derlenmesini engeller. Bu kurallar bütününe <strong>Syntax (Söz Dizimi)</strong> denir. Bu bölümde Arduino kod mimarisinin yazım kurallarını inceleyeceğiz.</p>
+        </section>
+
+        <section>
+            <h2>1. White Space (Boşluklar ve Girintiler)</h2>
+            <p>Arduino (C/C++ altyapısını kullandığı için) <strong>White Space</strong> kavramını derleme aşamasında dikkate almaz. Yani fazladan bırakılan boşluklar, satır atlamaları veya Tab tuşları kodun çalışmasını engellemez. Ancak kodun okunabilirliği (readability) için hayati önem taşırlar. Üç tür White Space vardır:</p>
+            <ul>
+                <li><strong>Tab Boşlukları (Girinti):</strong> Süslü parantez <code>{ }</code> arasına yazılan kod bloklarının hangi yapıya ait olduğunu belli etmek için kullanılır.</li>
+                <li><strong>Normal Boşluklar:</strong> Kelimeleri ve parametreleri birbirinden ayırmak için kullanılır (Örn: <code>digitalWrite(13, HIGH);</code>).</li>
+                <li><strong>Boş Satırlar:</strong> Mantıksal blokları birbirinden ayırarak kod kalabalığını önler.</li>
+            </ul>
+
+            <div class="pro-tip">
+                <strong>💡 Pratik İpucu (Pro Tip): Otomatik Hizalama (Ctrl + T)</strong><br>
+                Arduino IDE içerisinde kod yazarken girintiler birbirine girebilir. Klavyenizden <strong>Ctrl + T</strong> (Mac için Cmd + T) tuş kombinasyonuna basarak kodunuzu anında akıllı ve standart bir formatta hizalayabilirsiniz.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Yorum Satırları (Comments)</h2>
+            <p>Yorum satırları, derleyici tarafından tamamen yok sayılır; yani kodun çalışmasına hiçbir etkisi yoktur. Amacı, kodu okuyan kişiye (veya yıllar sonra projeye geri dönen size) rehberlik etmek, kodun ne işe yaradığını veya versiyon bilgisini açıklamaktır. İki şekilde kullanılır:</p>
+            <ul>
+                <li><strong>Tek Satırlık Yorum:</strong> <code>//</code> işareti ile başlar. Sadece o satırın sonuna kadar olan kısmı etkiler.</li>
+                <li><strong>Çok Satırlık Yorum:</strong> <code>/*</code> ile başlar ve <code>*/</code> ile biter. Uzun açıklamalar veya geçici olarak kod bloklarını devre dışı bırakmak için idealdir.</li>
+            </ul>
+
+            <pre><code class="language-cpp">/* 
+ * Proje: Akıllı Aydınlatma Sistemi
+ * Geliştiren: Merve Göncü
+ * Tarih: 2026
+ */
+
+void setup() {
+  pinMode(13, OUTPUT); // 13 numaralı pini çıkış olarak ayarla
+}
+
+void loop() {
+  digitalWrite(13, HIGH); // LED'i yak
+  delay(1000);            // 1 saniye bekle
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Parantez Çeşitleri ve Görevleri</h2>
+            <p>Arduino kodlarında farklı parantez türleri farklı amaçlar için kullanılır ve kesinlikle birbirinin yerine kullanılamaz:</p>
+            <ul>
+                <li><strong>Normal Parantez <code>( )</code>:</strong> Fonksiyonlara parametre aktarmak (Örn: <code>pinMode(8, OUTPUT);</code>) veya matematiksel işlem önceliğini belirlemek için kullanılır. Eğer fonksiyon parametre almıyorsa parantez yine de boş olarak konulmalıdır (Örn: <code>loop();</code>).</li>
+                <li><strong>Süslü Parantez <code>{ }</code>:</strong> Kod bloklarını (kapsamlarını) tanımlamak için kullanılır. Fonksiyonların, döngülerin ve koşulların başlangıç ve bitiş sınırlarını çizer.</li>
+                <li><strong>Köşeli Parantez <code>[ ]</code>:</strong> İlerleyen derslerde göreceğimiz diziler (arrays) ve bellek yönetiminde kullanılır.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+</body>
+</html>
