@@ -52,6 +52,7 @@ void loop() {
   // delay(1000);            // 1 saniye bekle
 }
 </code></pre>
+
 <div align="center">
   <img src="images/arduino-uno.jpg" alt="Arduino Uno Kartı" width="500">
 </div>
