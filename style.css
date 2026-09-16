@@ -1,7 +1,6 @@
 /* style.css - Arduino Ders Serisi */
 :root {
     --color-turquoise: #09D8C7;
-    --color-navy-light: #17364F;
     --color-navy-dark: #0D1A2F;
     --color-purple-dark: #411E3A;
     --color-red-bright: #BD0927;
@@ -11,9 +10,6 @@
     --card-bg: rgba(23, 54, 79, 0.75); 
     --text-primary: #fdfbf7;       
     --text-secondary: #09D8C7;     
-    
-    --accent-color: #09D8C7;       
-    --accent-hover: #BD0927;       
     --border-color: rgba(9, 216, 199, 0.2);
     
     --disabled-bg: rgba(17, 29, 46, 0.6);
@@ -41,7 +37,7 @@ body {
     position: relative;
 }
 
-/* --- FAREYLE İTİLEN AKIŞKAN İLLÜSTRASYON ARKA PLANI --- */
+/* --- KENDİLİĞİNDEN AKAN VE KARIŞAN İLLÜSTRASYON ARKA PLANI --- */
 .fluid-bg {
     position: fixed;
     top: 0;
@@ -54,32 +50,56 @@ body {
     pointer-events: none;
 }
 
-/* Fareyi takip eden renkli sıvı lekeler */
-.fluid-blob-1, 
-.fluid-blob-2 {
+/* Arka planda süzülen ve renkleri birbirine geçiren akışkan katmanlar */
+.fluid-bg::before,
+.fluid-bg::after {
+    content: '';
     position: absolute;
-    width: 65vw;
-    height: 65vw;
-    border-radius: 50%;
-    filter: blur(85px);
-    opacity: 0.75;
+    width: 140vw;
+    height: 140vh;
+    top: -20vh;
+    left: -20vw;
+    filter: blur(70px);
+    opacity: 0.85; /* Renklerin net görünmesi için yüksek */
     mix-blend-mode: screen;
-    pointer-events: none;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
 }
 
-.fluid-blob-1 {
-    background: radial-gradient(circle, var(--color-red-bright) 0%, var(--color-burgundy) 60%, transparent 100%);
-    top: -20%;
-    left: -20%;
+.fluid-bg::before {
+    background: radial-gradient(circle at 30% 30%, var(--color-red-bright) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, var(--color-burgundy) 0%, transparent 60%);
+    animation: flowAnimation1 12s ease-in-out infinite alternate;
 }
 
-.fluid-blob-2 {
-    background: radial-gradient(circle, var(--color-turquoise) 0%, var(--color-purple-dark) 60%, transparent 100%);
-    bottom: -20%;
-    right: -20%;
+.fluid-bg::after {
+    background: radial-gradient(circle at 70% 30%, var(--color-turquoise) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, var(--color-purple-dark) 0%, transparent 60%);
+    animation: flowAnimation2 16s ease-in-out infinite alternate;
 }
-/* ----------------------------------------------------- */
+
+@keyframes flowAnimation1 {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(-50px, 40px) scale(1.2) rotate(8deg);
+    }
+    100% {
+        transform: translate(40px, -50px) scale(1.1) rotate(-8deg);
+    }
+}
+
+@keyframes flowAnimation2 {
+    0% {
+        transform: translate(0, 0) scale(1.1) rotate(0deg);
+    }
+    50% {
+        transform: translate(50px, -40px) scale(1.25) rotate(-8deg);
+    }
+    100% {
+        transform: translate(-40px, 50px) scale(1) rotate(8deg);
+    }
+}
+/* ---------------------------------------------------------------- */
 
 body.home-body {
     height: 100vh;
