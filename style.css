@@ -8,7 +8,7 @@
     --color-burgundy: #500A1F;
 
     --bg-color: #0D1A2F;          
-    --card-bg: rgba(23, 54, 79, 0.75); /* Kartlar arkadaki renklerin akışını gösterecek kadar yarı şeffaf */
+    --card-bg: rgba(23, 54, 79, 0.75); 
     --text-primary: #fdfbf7;       
     --text-secondary: #09D8C7;     
     
@@ -41,7 +41,7 @@ body {
     position: relative;
 }
 
-/* --- NET VE BELİRGİN AKIŞKAN İLLÜSTRASYON ARKA PLANI --- */
+/* --- FAREYLE İTİLEN AKIŞKAN İLLÜSTRASYON ARKA PLANI --- */
 .fluid-bg {
     position: fixed;
     top: 0;
@@ -54,53 +54,30 @@ body {
     pointer-events: none;
 }
 
-/* Arka planda süzülen devasa renkli dalga leke formları */
-.fluid-bg::before,
-.fluid-bg::after {
-    content: '';
+/* Fareyi takip eden renkli sıvı lekeler */
+.fluid-blob-1, 
+.fluid-blob-2 {
     position: absolute;
-    width: 120vw;
-    height: 120vh;
-    top: -10vh;
-    left: -10vw;
-    filter: blur(60px);
-    opacity: 0.75; /* Renklerin çok daha net görünmesi için artırıldı */
+    width: 65vw;
+    height: 65vw;
+    border-radius: 50%;
+    filter: blur(85px);
+    opacity: 0.75;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
 }
 
-.fluid-bg::before {
-    background: radial-gradient(circle at 20% 30%, var(--color-red-bright) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, var(--color-burgundy) 0%, transparent 60%);
-    animation: waveMove1 12s ease-in-out infinite alternate;
+.fluid-blob-1 {
+    background: radial-gradient(circle, var(--color-red-bright) 0%, var(--color-burgundy) 60%, transparent 100%);
+    top: -20%;
+    left: -20%;
 }
 
-.fluid-bg::after {
-    background: radial-gradient(circle at 70% 20%, var(--color-turquoise) 0%, transparent 50%),
-                radial-gradient(circle at 30% 80%, var(--color-purple-dark) 0%, transparent 60%);
-    animation: waveMove2 16s ease-in-out infinite alternate;
-}
-
-@keyframes waveMove1 {
-    0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
-    50% {
-        transform: translate(-40px, 30px) scale(1.15) rotate(5deg);
-    }
-    100% {
-        transform: translate(30px, -40px) scale(1.05) rotate(-5deg);
-    }
-}
-
-@keyframes waveMove2 {
-    0% {
-        transform: translate(0, 0) scale(1.05) rotate(0deg);
-    }
-    50% {
-        transform: translate(40px, -30px) scale(1.2) rotate(-5deg);
-    }
-    100% {
-        transform: translate(-30px, 40px) scale(1) rotate(5deg);
-    }
+.fluid-blob-2 {
+    background: radial-gradient(circle, var(--color-turquoise) 0%, var(--color-purple-dark) 60%, transparent 100%);
+    bottom: -20%;
+    right: -20%;
 }
 /* ----------------------------------------------------- */
 
@@ -119,7 +96,7 @@ header {
 header h1 {
     font-size: 1.6rem;
     font-weight: 700;
-    background: linear-gradient(135dev, var(--color-turquoise) 0%, var(--color-red-bright) 100%);
+    background: linear-gradient(135deg, var(--color-turquoise) 0%, var(--color-red-bright) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
