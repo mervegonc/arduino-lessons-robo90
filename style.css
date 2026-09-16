@@ -3,7 +3,7 @@
     --color-turquoise: #09D8C7;
     --color-navy-dark: #0D1A2F;
     --color-purple-dark: #411E3A;
-    --color-red-bright: #BD0927;
+    --color-red-bright: #730215;
     --color-burgundy: #500A1F;
 
     --bg-color: #0D1A2F;          
@@ -124,9 +124,9 @@ header {
 header h1 {
     font-size: 1.6rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--color-turquoise) 0%, var(--color-red-bright) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #730215; /* Başlığın rengi tamamen bu olur */
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
 
 header p {
