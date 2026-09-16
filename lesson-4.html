@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bölüm 4: Dijital Pinler ve Temel Fonksiyonlar</title>
+    <title>Bölüm 4: Dijital Pinler, pinMode, digitalWrite ve digitalRead</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
     <style>
@@ -15,6 +15,7 @@
             --accent-color: #38bdf8;
             --border-color: #334155;
             --code-bg: #090d16;
+            --note-bg: rgba(56, 189, 248, 0.05);
         }
 
         * {
@@ -112,6 +113,19 @@
             font-size: 0.9rem;
         }
 
+        .pro-tip {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .pro-tip strong {
+            color: var(--text-primary);
+        }
+
         footer {
             text-align: center;
             margin-top: 3rem;
@@ -130,12 +144,12 @@
         </header>
 
         <section>
-            <p>Arduino dünyasında fiziksel çevreyle etkileşime geçmenin, sensörlerden veri okumanın ve çevre birimlerini kontrol etmenin temel yolu <strong>Dijital Pinler</strong>dir. Bu bölümde dijital pinlerin mantığını ve temel fonksiyonlarını inceleyeceğiz.</p>
+            <p>Arduino dünyasında fiziksel çevreyle etkileşime geçmenin, sensörlerden veri okumanın ve çevre birimlerini kontrol etmenin temel yolu <strong>Dijital Pinler</strong>dir. Bu bölümde temel lojik seviyeleri ve pin yönetim komutlarını inceleyeceğiz.</p>
         </section>
 
         <section>
             <h2>1. Dijital Pin Nedir ve Lojik Seviyeler (HIGH / LOW)</h2>
-            <p>Arduino kartları üzerinde (örneğin Uno modelinde) <code>0</code> ile <code>13</code> arasında numaralandırılmış dijital giriş/çıkış pinleri bulunur. Dijital mantık ikili (binary) sisteme dayanır:</p>
+            <p>Arduino kartları üzerinde <code>0</code> ile <code>13</code> arasında numaralandırılmış dijital giriş/çıkış pinleri bulunur. Dijital mantık ikili (binary) sisteme dayanır:</p>
             <ul>
                 <li><strong><code>HIGH</code> (Lojik 1 / 5V):</strong> Pinde elektrik akımının olduğunu, voltajın tepe noktada (<code>+5V</code>) olduğunu ifade eder.</li>
                 <li><strong><code>LOW</code> (Lojik 0 / 0V):</strong> Pinde gerilim olmadığını, pinin toprak (<code>GND</code>) seviyesinde olduğunu ifade eder.</li>
@@ -184,14 +198,11 @@ void loop() {
   durum = digitalRead(butonPin); // 7 numaralı pindeki lojik durumu okur (HIGH veya LOW)
   Serial.println(durum);         // Okunan değeri ekrana yazdırır
 }</code></pre>
-        </section>
 
-        <section>
-            <h2>5. Özet ve Donanım Mantığı</h2>
-            <ul>
-                <li><strong>Aktüatörler (Çıkışlar):</strong> LED, buzzer ve motorlar genellikle <code>OUTPUT</code> ve <code>digitalWrite()</code> ile yönetilir.</li>
-                <li><strong>Sensörler / Butonlar (Girişler):</strong> Düğmeler ve dijital sensörler dış dünyadan gelen veriyi <code>INPUT</code> ve <code>digitalRead()</code> ile karta aktarır.</li>
-            </ul>
+            <div class="pro-tip">
+                <strong>💡 Ekstra Bilgi (Pro Tip): Dahili Pull-up Direnci (`INPUT_PULLUP`)</strong><br>
+                Buton bağlarken dışarıdan direnç kullanmak istemiyorsan, Arduino'nun mikrodenetleyicisi içinde yer alan dahili direnci aktif edebilirsin. Bunun için <code>pinMode(butonPin, INPUT_PULLUP);</code> komutunu kullanırsın. Bu sayede buton basılmadığında pin kararlı bir şekilde <code>HIGH</code> okunur, basıldığında ise devre tamamlanarak <code>LOW</code> değerini alır.
+            </div>
         </section>
 
         <footer>
