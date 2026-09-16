@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Ders Serisi</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .lesson-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.25s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.15);
+        }
+
+        .lesson-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .lesson-info span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .arrow {
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        .lesson-card:hover .arrow {
+            color: var(--accent-color);
+            transform: translateX(4px);
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Arduino Ders Serisi</h1>
+            <p>Sıfırdan ileri seviyeye modern gömülü sistem öğrenim günlüğüm.</p>
+        </header>
+
+        <div class="card-list">
+            <a href="./lesson-1" class="lesson-card">
+                <div class="lesson-info">
+                    <h3>Bölüm 1: Giriş ve Temel Kavramlar</h3>
+                    <span>Temel Donanım ve Kavramsal Giriş</span>
+                </div>
+                <div class="arrow">➔</div>
+            </a>
+
+            <a href="./lesson-2" class="lesson-card">
+                <div class="lesson-info">
+                    <h3>Bölüm 2: Arduino Nedir ve Ekosistem Mimarisi</h3>
+                    <span>Bileşenler, Çalışma Mantığı ve Mimari</span>
+                </div>
+                <div class="arrow">➔</div>
+            </a>
+
+            <a href="./lesson-3" class="lesson-card">
+                <div class="lesson-info">
+                    <h3>Bölüm 3: setup() & loop() Mantığı ve Derleme</h3>
+                    <span>İlk Kod, İskelet Yapı ve Derleme Süreci</span>
+                </div>
+                <div class="arrow">➔</div>
+            </a>
+        </div>
+
+        <footer>
+            <p>Built with passion by <a href="https://github.com/mervegonc" target="_blank">Merve Göncü</a> • Hosted on GitHub Pages</p>
+        </footer>
+    </div>
+
+</body>
+</html>
