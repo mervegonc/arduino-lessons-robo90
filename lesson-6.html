@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 6: Arduino Syntax - Noktalı Virgül (;) Kullanımı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --border-color: #334155;
+            --code-bg: #090d16;
+            --note-bg: rgba(56, 189, 248, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--code-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        .pro-tip {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .pro-tip strong {
+            color: var(--text-primary);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+
+        <header>
+            <h1>Bölüm 6: Arduino Syntax - Noktalı Virgül (;) Kullanımı</h1>
+        </header>
+
+        <section>
+            <p>C ve C++ dilleri üzerine kurulu olan Arduino yazılım dilinde, kodun doğru bir şekilde derlenmesi ve çalışması için yazım kurallarına (syntax) harfiyen uymak gerekir. Bu kurallar arasında en çok hata yapılan ve en kritik olanılardan biri <strong>noktalı virgül (<code>;</code>)</strong> kullanımıdır.</p>
+        </section>
+
+        <section>
+            <h2>1. Noktalı Virgül Nedir? (Statement Terminator)</h2>
+            <p>Programlama dillerinde noktalı virgül, bir <strong>ifade sonlandırıcı (statement terminator)</strong> olarak görev yapar. Arduino'ya bir komut verdiğinizde veya bir eylem gerçekleştirmesini istediğinizde, o ifadenin bittiğini ve işleme konulması gerektiğini noktalı virgül ile belirtirsiniz.</p>
+            <ul>
+                <li><strong>Emir ve Eylemler:</strong> <code>digitalWrite(13, HIGH);</code> gibi Arduino'nun anlık bir reaksiyon vermesini istediğimiz komutların sonuna kesinlikle noktalı virgül konulmalıdır.</li>
+                <li><strong>Derleme Hatası:</strong> Noktalı virgül unutulduğunda Arduino IDE kodu derlemez ve hata (syntax error) verir. Yeni başlayanların en çok zaman kaybettiği nokta burasıdır.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Nerede Kullanılır, Nerede Kullanılmaz?</h2>
+            <p>Hangi satırın sonuna noktalı virgül konulup konulmayacağını anlamanın en kolay yolu, o satırın <strong>kendi başına bir eylem bildirip bildirmediğine</strong> bakmaktır:</p>
+            
+            <pre><code class="language-cpp">void setup() { // <- Fonksiyon başlıklarına NOKTALI VİRGÜL KONULMAZ!
+  pinMode(13, OUTPUT); // <- Komut/eylem bildirdiği için NOKTALI VİRGÜL KONULUR.
+}
+
+void loop() { // <- Fonksiyon başlıklarına NOKTALI VİRGÜL KONULMAZ!
+  digitalWrite(13, HIGH); // <- Komuttur, noktalı virgül alır.
+  delay(1000);            // <- Komuttur, noktalı virgül alır.
+}</code></pre>
+
+            <div class="pro-tip">
+                <strong>💡 Önemli Ayrım: Fonksiyonlar ve Bloklar</strong><br>
+                <code>setup()</code>, <code>loop()</code> gibi ana fonksiyon tanımlamalarının, ileride göreceğimiz <code>if</code> koşullarının veya döngülerin başlıklarına (süslü parantez açılan yerlere) <strong>asla noktalı virgül konulmaz</strong>. Çünkü onlar tek başına bir komut değil, altındaki kod bloklarını yöneten yapılardır.
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Yaygın Yanılgılar ve Pratik İpuçları</h2>
+            <p>Bazı yeni başlayanlar "Normal parantez olan yerlere koymayayım, süslü parantez olanlara koyayım" gibi yanlış ezberler yapabilir. Ancak ilerleyen konularda süslü parantez bitiminde bile (örneğin değişken tanımlamalarında veya bazı yapılarda) noktalı virgül kullanıldığını göreceksiniz.</p>
+            <p>En güvenli yöntem, kodunuzu yazar yazmaz mantığını kurmak ve her bir komut satırının sonuna eylemin bittiğini belirten <code>;</code> işaretini koymayı alışkanlık haline getirmektir.</p>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+</body>
+</html>
