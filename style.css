@@ -1,24 +1,24 @@
 /* style.css - Arduino Ders Serisi Ortak Tasarım Sistemi */
 :root {
-    /* Gönderdiğin Renk Paleti */
+    /* Gönderdiğin Akdeniz Renk Paleti */
     --sunlit-clay: #F7BB67;
     --tangerine-dream: #F3946B;
     --pale-oak: #D3BEA3;
     --emerald-depths: #006555;
     --pacific-blue: #6BB3C0;
 
-    /* Arayüz Renk Atamaları (Sıcak Akdeniz Tonları Dengesi) */
-    --bg-color: #1a1512;          /* Sıcak koyu zemin */
-    --card-bg: #26201b;          
+    /* Arayüz Renk Atamaları (Siyah yerine sıcak Akdeniz toprak/kum tonları) */
+    --bg-color: #241e19;          /* Sıcak toprak kahvesi/zemin */
+    --card-bg: #322a24;          
     --text-primary: #fdfbf7;
-    --text-secondary: #D3BEA3;   /* Pale Oak tonu metin rengi */
-    --accent-color: #F7BB67;     /* Sunlit Clay vurgu rengi */
+    --text-secondary: #D3BEA3;   /* Pale Oak */
+    --accent-color: #F7BB67;     /* Sunlit Clay */
     --accent-hover: #F3946B;     
-    --border-color: #3e332c;
+    --border-color: #4a3d34;
     
-    --disabled-bg: #1f1b18;
-    --disabled-border: #2c2521;
-    --disabled-text: #594d45;
+    --disabled-bg: #2a231e;
+    --disabled-border: #3b312a;
+    --disabled-text: #6b5c51;
 }
 
 * {
@@ -31,17 +31,25 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center; /* İçeriklerin dikeyde tam ortalanmasını sağlar */
     justify-content: space-between;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem;
+    overflow-x: hidden;
+}
+
+/* Ana Sayfa Özel Düzeni (Tek ekran sığması için) */
+body.home-body {
+    height: 100vh;
     overflow: hidden;
 }
 
 header {
     text-align: center;
     margin-bottom: 0.5rem;
+    width: 100%;
 }
 
 header h1 {
@@ -64,6 +72,8 @@ header p {
     grid-template-rows: repeat(4, 1fr);     
     gap: 0.5rem;
     flex-grow: 1;
+    width: 100%;
+    max-width: 1400px;
     max-height: calc(100vh - 130px);
 }
 
@@ -96,7 +106,7 @@ header p {
     font-size: 0.65rem;
     color: var(--text-secondary);
     line-height: 1.1;
-    display: none; /* Başlangıçta gizli */
+    display: none; 
     max-width: 100%;
     margin-top: 0.2rem;
 }
@@ -105,13 +115,12 @@ header p {
 .lesson-box:hover {
     transform: translateY(-2px);
     border-color: var(--sunlit-clay);
-    background-color: var(--emerald-depths); /* Paletten Emerald Depths */
+    background-color: var(--emerald-depths); 
     color: var(--sunlit-clay);
     box-shadow: 0 4px 12px rgba(0, 101, 85, 0.4);
     z-index: 10;
 }
 
-/* Hover olduğunda başlık kartın içinde görünür hale gelir */
 .lesson-box:hover .lesson-short-title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -122,11 +131,11 @@ header p {
 }
 
 .lesson-box:hover .lesson-num {
-    font-size: 0.75rem; /* Hover anında numara hafif küçülerek başlığa yer açar */
+    font-size: 0.75rem; 
     color: var(--sunlit-clay);
 }
 
-/* Henüz eklenmemiş (boş) dersler için pasif stil */
+/* Pasif dersler */
 .lesson-box.disabled {
     background-color: var(--disabled-bg);
     border-color: var(--disabled-border);
@@ -140,8 +149,37 @@ header p {
 }
 
 .lesson-box.disabled .lesson-short-title {
-    display: block; /* "Yakında" yazısı pasif kutularda her zaman görünür kalır */
+    display: block; 
     color: var(--disabled-text);
+}
+
+/* İç Ders Sayfaları İçin Konteyner (Tam Ortalı) */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--accent-color);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.back-link:hover {
+    transform: translateX(-4px);
+}
+
+section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 footer {
@@ -149,6 +187,7 @@ footer {
     font-size: 0.75rem;
     color: var(--text-secondary);
     margin-top: 0.4rem;
+    width: 100%;
 }
 
 footer a {
