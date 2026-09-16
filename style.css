@@ -1,24 +1,28 @@
-/* style.css - Arduino Ders Serisi Ortak Tasarım Sistemi */
+/* style.css - Arduino Ders Serisi (5 Renkli Akdeniz Paleti Tasarım Sistemi) */
 :root {
-    /* Gönderdiğin Akdeniz Renk Paleti */
+    /* Gönderdiğin Orijinal 5 Renk Paleti */
     --sunlit-clay: #F7BB67;
     --tangerine-dream: #F3946B;
     --pale-oak: #D3BEA3;
     --emerald-depths: #006555;
     --pacific-blue: #6BB3C0;
 
-    /* Arayüz Renk Atamaları (Siyah yerine sıcak Akdeniz toprak/kum tonları) */
-    --bg-color: #241e19;          /* Sıcak toprak kahvesi/zemin */
-    --card-bg: #322a24;          
-    --text-primary: #fdfbf7;
-    --text-secondary: #D3BEA3;   /* Pale Oak */
-    --accent-color: #F7BB67;     /* Sunlit Clay */
-    --accent-hover: #F3946B;     
-    --border-color: #4a3d34;
+    /* Arayüz Renk Atamaları (Koyu zemin tamamen kaldırıldı, paletin açık ve ferah tonları entegre edildi) */
+    --bg-color: #f5efe6;          /* Pale Oak tonundan türetilmiş ferah, açık zemin */
+    --card-bg: #fdfbf7;          /* Kartlar için saf krem/beyaz tonu */
+    --text-primary: #241e19;     /* Okunabilirliği yüksek koyu toprak metin rengi */
+    --text-secondary: #6b5c51;   /* İkincil metinler için orta ton */
     
-    --disabled-bg: #2a231e;
-    --disabled-border: #3b312a;
-    --disabled-text: #6b5c51;
+    --accent-primary: #F7BB67;   /* Sunlit Clay */
+    --accent-secondary: #F3946B; /* Tangerine Dream */
+    --accent-green: #006555;     /* Emerald Depths */
+    --accent-blue: #6BB3C0;      /* Pacific Blue */
+    
+    --border-color: #e3d5c6;
+    
+    --disabled-bg: #eae3d8;
+    --disabled-border: #d4c5b6;
+    --disabled-text: #a19385;
 }
 
 * {
@@ -34,13 +38,13 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center; /* İçeriklerin dikeyde tam ortalanmasını sağlar */
+    align-items: center;
     justify-content: space-between;
     padding: 1.5rem;
     overflow-x: hidden;
 }
 
-/* Ana Sayfa Özel Düzeni (Tek ekran sığması için) */
+/* Ana Sayfa Özel Düzeni */
 body.home-body {
     height: 100vh;
     overflow: hidden;
@@ -55,9 +59,11 @@ header {
 header h1 {
     font-size: 1.6rem;
     font-weight: 700;
+    /* Sunlit Clay ve Tangerine Dream geçişli başlık */
     background: linear-gradient(135deg, var(--sunlit-clay) 0%, var(--tangerine-dream) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));
 }
 
 header p {
@@ -92,16 +98,16 @@ header p {
     text-align: center;
     position: relative;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(211, 190, 163, 0.15);
 }
 
-/* Normal durumda sadece Bölüm X görünür */
+/* Normal durumda Bölüm numarası Sunlit Clay / Tangerine dengesi */
 .lesson-box .lesson-num {
     font-size: 0.85rem;
-    color: var(--accent-color);
+    color: var(--emerald-depths); /* Paletten Emerald Depths kullanıldı */
     transition: color 0.2s ease;
 }
 
-/* Başlık normalde gizlidir, sadece fare ile üzerine gelince görünür */
 .lesson-box .lesson-short-title {
     font-size: 0.65rem;
     color: var(--text-secondary);
@@ -111,13 +117,13 @@ header p {
     margin-top: 0.2rem;
 }
 
-/* Fare üzerine gelince (Hover) */
+/* Fare üzerine gelince (Hover) - Pacific Blue ve Emerald Depths buluşması */
 .lesson-box:hover {
     transform: translateY(-2px);
-    border-color: var(--sunlit-clay);
-    background-color: var(--emerald-depths); 
-    color: var(--sunlit-clay);
-    box-shadow: 0 4px 12px rgba(0, 101, 85, 0.4);
+    border-color: var(--pacific-blue);
+    background-color: var(--pacific-blue); 
+    color: #fdfbf7;
+    box-shadow: 0 4px 12px rgba(107, 179, 192, 0.4);
     z-index: 10;
 }
 
@@ -132,7 +138,7 @@ header p {
 
 .lesson-box:hover .lesson-num {
     font-size: 0.75rem; 
-    color: var(--sunlit-clay);
+    color: var(--sunlit-clay); /* Hover olunca Sunlit Clay ile harika uyum sağlar */
 }
 
 /* Pasif dersler */
@@ -141,6 +147,7 @@ header p {
     border-color: var(--disabled-border);
     color: var(--disabled-text);
     pointer-events: none;
+    box-shadow: none;
 }
 
 .lesson-box.disabled .lesson-num {
@@ -153,7 +160,7 @@ header p {
     color: var(--disabled-text);
 }
 
-/* İç Ders Sayfaları İçin Konteyner (Tam Ortalı) */
+/* İç Ders Sayfaları İçin Konteyner */
 .container {
     width: 100%;
     max-width: 800px;
@@ -162,15 +169,16 @@ header p {
 
 .back-link {
     display: inline-block;
-    color: var(--accent-color);
+    color: var(--emerald-depths);
     text-decoration: none;
     margin-bottom: 2rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: transform 0.2s ease;
 }
 
 .back-link:hover {
     transform: translateX(-4px);
+    color: var(--tangerine-dream);
 }
 
 section {
@@ -180,6 +188,24 @@ section {
     padding: 2rem;
     margin-bottom: 1.5rem;
     width: 100%;
+    box-shadow: 0 4px 12px rgba(211, 190, 163, 0.2);
+}
+
+/* İç sayfalardaki h2 başlıklar Emerald Depths ve Tangerine uyumunda */
+section h2 {
+    color: var(--emerald-depths);
+    border-bottom: 2px solid var(--sunlit-clay);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Özel bilgi kutusu (Pro-Tip) - Pacific Blue vurgulu */
+.pro-tip {
+    background-color: rgba(107, 179, 192, 0.1);
+    border-left: 4px solid var(--pacific-blue);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+    margin-top: 1rem;
 }
 
 footer {
@@ -191,10 +217,12 @@ footer {
 }
 
 footer a {
-    color: var(--sunlit-clay);
+    color: var(--emerald-depths);
     text-decoration: none;
+    font-weight: 600;
 }
 
 footer a:hover {
+    color: var(--tangerine-dream);
     text-decoration: underline;
 }
