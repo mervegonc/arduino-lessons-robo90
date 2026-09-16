@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 7: Değişken Tanımlama ve Veri Tipleri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        p, li {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        ul {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        li strong {
+            color: var(--text-primary);
+        }
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+        .pro-tip {
+            background-color: rgba(247, 187, 103, 0.05);
+            border-left: 4px solid var(--sunlit-clay);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+        }
+        .pro-tip strong {
+            color: var(--text-primary);
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="../" class="back-link">← Ana Sayfaya Dön</a>
+
+        <header>
+            <h1>Bölüm 7: Değişken Tanımlama ve Veri Tipleri</h1>
+        </header>
+
+        <section>
+            <p>Mikrodenetleyicilerle çalışırken sensörlerden gelen sıcaklık, mesafe veya buton durumları gibi verileri bellekte saklamamız gerekir. Bellekte bu verileri tutmamızı sağlayan isimlendirilmiş kutucuklara <strong>değişken (variable)</strong> denir.</p>
+        </section>
+
+        <section>
+            <h2>1. Veri Tipleri (Data Types) Nedir?</h2>
+            <p>Saklayacağımız verinin türüne göre (tam sayı, ondalıklı sayı, metin, mantıksal true/false) uygun veri tipini seçmeliyiz. Doğru veri tipi seçimi bellek (RAM) tasarrufu sağlar:</p>
+            <ul>
+                <li><strong>int (Integer):</strong> Tam sayıları saklar (-32,768 ile 32,768 arası). Örn: <code>int ledPin = 13;</code></li>
+                <li><strong>float:</strong> Ondalıklı sayılardır. Örn: <code>float sıcaklik = 23.5;</code></li>
+                <li><strong>boolean / bool:</strong> Sadece <code>true</code> (1) veya <code>false</code> (0) değer alır. Örn: <code>bool durum = true;</code></li>
+                <li><strong>char:</strong> Tek bir karakter saklar. Örn: <code>char kalite = 'A';</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Örnek Kullanım</h2>
+            <pre><code class="language-cpp">int sensorPin = A0; // Analog pin tanımı
+float thresholdValue = 2.5; // Eşik değeri
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorValue = analogRead(sensorPin);
+  // İşlemler...
+}</code></pre>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+</body>
+</html>
