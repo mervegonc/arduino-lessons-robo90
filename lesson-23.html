@@ -3,94 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bölüm: 23 Matematiksel Fonksiyonlar ve Zaman Yönetimi</title>
+    <title>Bölüm 23: Matematiksel Fonksiyonlar ve Zaman Yönetimi</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
-            max-width: 900px;
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
         }
-        h1 {
-            color: #00979D;
-            border-bottom: 2px solid #00979D;
-            padding-bottom: 10px;
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
         }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
         h2 {
-            color: #005f73;
-            margin-top: 30px;
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
         }
-        .card {
-            background: #fff;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            line-height: 1.7;
         }
-        code {
-            background: #e9ecef;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            color: #d63384;
+
+        ul {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
         }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
         pre {
-            background: #212529;
-            color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
             overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
         }
-        pre code {
-            color: #f8f9fa;
-            background: none;
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 1rem;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            border: 1px solid var(--border-color);
+            padding: 12px;
             text-align: left;
+            color: var(--text-secondary);
         }
+
         th {
-            background-color: #00979D;
-            color: white;
+            background-color: var(--disabled-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
     </style>
 </head>
 <body>
 
-    <h1>Arduino Eğitim Notları: Matematik & Zaman Yönetimi</h1>
-    <p>Bu sayfada Robo90 Arduino Dersleri kapsamında işlenen <b>Matematiksel Fonksiyonlar</b> ve <b>Delay Kullanmadan Zaman Yönetimi (millis)</b> konuları özetlenmiştir.</p>
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
 
-    <h2>1. Matematiksel Fonksiyonlar (Lesson-22)</h2>
-    
-    <div class="card">
-        <h3>Öne Çıkan Komutlar</h3>
-        <ul>
-            <li><code>sq() / square()</code>: Verilen parametrenin karesini alır.</li>
-            <li><code>sqrt()</code>: Karekök alır. Geriye hassasiyet nedeniyle <code>Double</code> türünde değer döndürür.</li>
-            <li><code>pow(taban, us)</code>: Üs alma işlemi yapar.</li>
-            <li><code>min() / max()</code>: İki sayı arasında küçük veya büyük olanı seçer.</li>
-            <li><code>abs()</code>: Mutlak değer hesaplar.</li>
-            <li><code>constrain(deger, min, max)</code>: Bir değeri belirli sınırlar arasında sabitler; dışındaysa sınırlara çeker.</li>
-            <li><code>map(deger, min1, max1, min2, max2)</code>: Bir aralıktaki veriyi orantılı olarak başka bir aralığa dönüştürür (Örn: Potansiyometreyi servo açıya çevirme).</li>
-        </ul>
-    </div>
-
-    <h2>2. Delay Kullanmadan Bekleme Yapmak (Lesson-32)</h2>
-    
-    <div class="card">
-        <h3>Neden <code>millis()</code> Kullanmalıyız?</h3>
-        <p><code>delay()</code> komutu çalışırken Arduino'yu tamamen durdurur (bloklar). Bu durum, arka planda basılan butonların veya sensör verilerinin **kaçırılmasına** yol açar. <code>millis()</code> fonksiyonu ile kod bloklanmadan aynı anda birden fazla iş yürütülebilir.</p>
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
         
-        <pre><code>unsigned long eskiZaman = 0;
+        <header>
+            <h1>Arduino Eğitim Notları: Matematik & Zaman Yönetimi</h1>
+            <p>Bu sayfada Robo90 Arduino Dersleri kapsamında işlenen <b>Matematiksel Fonksiyonlar</b> ve <b>Delay Kullanmadan Zaman Yönetimi (millis)</b> konuları özetlenmiştir.</p>
+        </header>
+
+        <section>
+            <h2>1. Matematiksel Fonksiyonlar (Lesson-22)</h2>
+            <h3>Öne Çıkan Komutlar</h3>
+            <ul>
+                <li><code>sq() / square()</code>: Verilen parametrenin karesini alır.</li>
+                <li><code>sqrt()</code>: Karekök alır. Geriye hassasiyet nedeniyle <code>Double</code> türünde değer döndürür.</li>
+                <li><code>pow(taban, us)</code>: Üs alma işlemi yapar.</li>
+                <li><code>min() / max()</code>: İki sayı arasında küçük veya büyük olanı seçer.</li>
+                <li><code>abs()</code>: Mutlak değer hesaplar.</li>
+                <li><code>constrain(deger, min, max)</code>: Bir değeri belirli sınırlar arasında sabitler; dışındaysa sınırlara çeker.</li>
+                <li><code>map(deger, min1, max1, min2, max2)</code>: Bir aralıktaki veriyi orantılı olarak başka bir aralığa dönüştürür (Örn: Potansiyometreyi servo açıya çevirme).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Delay Kullanmadan Bekleme Yapmak (Lesson-32)</h2>
+            <h3>Neden <code>millis()</code> Kullanmalıyız?</h3>
+            <p><code>delay()</code> komutu çalışırken Arduino'yu tamamen durdurur (bloklar). Bu durum, arka planda basılan butonların veya sensör verilerinin <strong>kaçırılmasına</strong> yol açar. <code>millis()</code> fonksiyonu ile kod bloklanmadan aynı anda birden fazla iş yürütülebilir.</p>
+            
+            <pre><code class="language-cpp">unsigned long eskiZaman = 0;
 const long beklemeSuresi = 1000; // 1 saniye
 
 void loop() {
@@ -105,26 +174,39 @@ void loop() {
   // Bu sayede buton okuma gibi işlemler hiç gecikmeden anında çalışır
   digitalRead(3); 
 }</code></pre>
+        </section>
+
+        <section>
+            <h2>Özet Karşılaştırma</h2>
+            <table>
+                <tr>
+                    <th>Konu</th>
+                    <th>Temel Araçlar</th>
+                    <th>Avantajı</th>
+                </tr>
+                <tr>
+                    <td>Matematiksel İşlemler</td>
+                    <td><code>map()</code>, <code>constrain()</code>, <code>pow()</code> vb.</td>
+                    <td>Karmaşık hesaplamaları ve sensör-aktüatör kalibrasyonlarını kolaylaştırır.</td>
+                </tr>
+                <tr>
+                    <td>Zaman Yönetimi</td>
+                    <td><code>millis()</code>, <code>unsigned long</code></td>
+                    <td>Programın kilitlenmesini önler, eş zamanlı (non-blocking) görev yönetimini sağlar.</td>
+                </tr>
+            </table>
+        </section>
+
+        <footer>
+            <p>Robo90 Arduino Dersleri Serisi • Analiz ve Kod Arşivi</p>
+        </footer>
     </div>
 
-    <h2>Özet Karşılaştırma</h2>
-    <table>
-        <tr>
-            <th>Konu</th>
-            <th>Temel Araçlar</th>
-            <th>Avantajı</th>
-        </tr>
-        <tr>
-            <td>Matematiksel İşlemler</td>
-            <td><code>map()</code>, <code>constrain()</code>, <code>pow()</code> vb.</td>
-            <td>Karmaşık hesaplamaları ve sensör-aktüatör kalibrasyonlarını kolaylaştırır.</td>
-        </tr>
-        <tr>
-            <td>Zaman Yönetimi</td>
-            <td><code>millis()</code>, <code>unsigned long</code></td>
-            <td>Programın kilitlenmesini önler, eş zamanlı (non-blocking) görev yönetimini sağlar.</td>
-        </tr>
-    </table>
-
+    <!-- Kod renklendirme betikleri -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
