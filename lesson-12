@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 12: for Döngüsü</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 12: for Döngüsü</h1>
+        </header>
+
+        <section>
+            <p>Kontrol yapılarının en önemli üyelerinden biri olan <strong><code>for</code> döngüsü</strong>, özellikle bir işlemin <em>belli ve net bir sayıda</em> tekrarlanmasını istediğimiz durumlarda son derece pratik bir kullanım sunar.</p>
+        </section>
+
+        <section>
+            <h2>1. for Döngüsünün Yapısı ve Parametreleri</h2>
+            <p><code>for</code> döngüsü parantez içerisine girilen 3 temel parametre ile çalışır. Bu parametreler birbirinden <strong>noktalı virgül (;)</strong> ile ayrılır:</p>
+            
+            <ol>
+                <li><strong>Başlangıç Değeri:</strong> Döngüyü kontrol edecek olan sayacın hangi değerden başlayacağını belirtir (Örn: <code>int i = 0;</code>). Genellikle döngü başında tanımlanır.</li>
+                <li><strong>Devam Şartı:</strong> Döngünün çalışmaya devam etmesi için gereken koşuldur. Şart doğru (True) olduğu sürece döngü döner, yanlış (False) olduğunda biter (Örn: <code>i < 10;</code>).</li>
+                <li><strong>Güncelleme:</strong> Her döngü turunun sonunda sayaç değişkeninin nasıl değiştirileceğini (arttırılacağını veya azaltılacağını) belirler (Örn: <code>i++</code>).</li>
+            </ol>
+
+            <pre><code class="language-cpp">void setup() {
+  Serial.begin(9600);
+
+  // i 0'dan başlar, 10'dan küçük olduğu sürece çalışır, her turda 1 artar
+  for (int i = 0; i < 10; i++) {
+    Serial.print("Döngü Adimi: ");
+    Serial.println(i);
+  }
+}
+
+void loop() {
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>2. Süslü Parantez ({ }) Kullanımı ve Çalışma Mantığı</h2>
+            <p>Tıpkı <code>if</code> ve <code>while</code> yapıkarında olduğu gibi, <code>for</code> döngüsü de varsayılan olarak yalnızca kendinden sonraki <strong>ilk satır kodu</strong> kontrol eder. Birden fazla satırı döngü içine dahil etmek için mutlaka süslü parantez <code>{ }</code> kullanılmalıdır.</p>
+            <ul>
+                <li><strong>Çalışma Sırası:</strong> Önce başlangıç değeri atanır $\rightarrow$ Şart kontrol edilir $\rightarrow$ Kod bloğu çalıştırılır $\rightarrow$ Güncelleme (artış) yapılır. Bu döngü, şart bozulana kadar aynı sırayla tekrarlanır.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Alternatif Kullanımlar (Esneklikler)</h2>
+            <p>Nadiren de olsa, <code>for</code> döngüsünün 3 parametresi döngü tanımının dışında veya farklı şekillerde tanımlanabilir. Örneğin sayaç değişkeni döngüden önce tanımlanabilir veya artış işlemi döngü gövdesine taşınabilir. Ancak aradaki noktalı virgül yerleşimi korunmalıdır:</p>
+
+            <pre><code class="language-cpp">int i = 0; // Sayaç dışarıda tanımlandı
+
+void setup() {
+  Serial.begin(9600);
+
+  for (; i < 5;) { // Parametreler boş bırakılsa bile noktalı virgüller kalmalı
+    Serial.println(i);
+    i++; // Güncelleme içeride yapıldı
+  }
+}
+
+void loop() {}</code></pre>
+        </section>
+
+        <section>
+            <h2>4. for ile while Döngüsü Arasındaki Farklar</h2>
+            <p>Mantıksal olarak <code>for</code> ile yapılan her şeyi <code>while</code> ile (veya tam tersini) yapmak mümkündür. Aralarındaki temel pratik farklar şunlardır:</p>
+            <ul>
+                <li><strong>for Döngüsü:</strong> Bir işlemin <em>kaç kez</em> tekrarlanacağı net olarak biliniyorsa (örneğin 10 defa, 50 defa) en temiz ve toplu çözümdür. Sayacın tanımlanması, koşulu ve artışı tek satırda toplanır.</li>
+                <li><strong>while Döngüsü:</strong> İşlemin kaç kez döneceği baştan kesin olarak bilinmiyorsa, dışarıdan gelen bir duruma veya şarta bağlı olarak ("şu olana kadar dön") çalışacaksa daha çok tercih edilir.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
