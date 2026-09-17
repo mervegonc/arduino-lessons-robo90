@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 20: Arduino Antrenmanları (LED ve Buton Uygulamaları)</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
+        
+        <header>
+            <h1>Bölüm 20: Arduino Antrenmanları (LED ve Buton Uygulamaları)</h1>
+        </header>
+
+        <!-- Kısım 1: LED Antrenmanı -->
+        <section>
+            <h2>1. Bölüm: Arduino ve LED'ler ile Antrenman (1. Örnek)</h2>
+            <p>Bu bölümde, daha önce öğrenilen temel komutlar (değişkenler, döngüler, <code>pinMode</code>, <code>digitalWrite</code>) pekiştirilerek çoklu LED kontrolü ve kod optimizasyonu incelenmiştir.</p>
+            <ul>
+                <li><strong>Kod Tasarrufu:</strong> Her bir LED için ayrı ayrı satırlar yazmak yerine, döngü yapıları kullanarak toplu kontrol sağlanmıştır.</li>
+                <li><strong>Adım Adım Geliştirme Kültürü:</strong> Önce donanım bağlantılarının doğruluğu test edilmiş, ardından kod kademeli olarak inşa edilmiştir.</li>
+            </ul>
+
+            <p><strong>Örnek Kod Yapısı (Sıralı LED Yakma):</strong></p>
+            <pre><code class="language-cpp">int ledPins[] = {2, 3, 4, 5, 6}; // LED pin dizisi
+int ledCount = 5;
+
+void setup() {
+  for (int i = 0; i < ledCount; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  for (int i = 0; i < ledCount; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(150);
+    digitalWrite(ledPins[i], LOW);
+  }
+}</code></pre>
+        </section>
+
+        <!-- Kısım 2: Butonlarla Sayaç Uygulaması -->
+        <section>
+            <h2>2. Bölüm: Arduino ve Butonlar ile Antrenman (Sayaç Örneği)</h2>
+            <p>Bu uygulamada iki adet buton kullanılarak bir sayaç kontrol mekanizması oluşturulmuştur. Artırma ve azaltma butonlarıyla güncel sayaç değeri Serial Monitör üzerinden takip edilmektedir.</p>
+            <ul>
+                <li><strong>Mekanik Parazit ve Döngü Hızı:</strong> Arduino mikrodenetleyicisi insan eline göre çok hızlı çalıştığı için, tek bir basışta döngünün binlerce kez dönmesini engellemek adına parmak kaldırılana kadar bekleyen <code>while</code> döngüleri ve küçük gecikmeler kullanılmıştır.</li>
+            </ul>
+
+            <p><strong>Sayaç Kontrol Kodu Örneği:</strong></p>
+            <pre><code class="language-cpp">const int minusPin = 4; // Azaltma butonu
+const int plusPin = 8;  // Artırma butonu
+int counter = 0;        // Sayaç değişkeni
+
+void setup() {
+  pinMode(minusPin, INPUT);
+  pinMode(plusPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Artırma butonuna basıldı mı?
+  if (digitalRead(plusPin) == HIGH) {
+    counter++;
+    Serial.println(counter);
+    while (digitalRead(plusPin) == HIGH) {
+      delay(10);
+    }
+  }
+
+  // Azaltma butonuna basıldı mı?
+  if (digitalRead(minusPin) == HIGH) {
+    counter--;
+    Serial.println(counter);
+    while (digitalRead(minusPin) == HIGH) {
+      delay(10);
+    }
+  }
+}</code></pre>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
