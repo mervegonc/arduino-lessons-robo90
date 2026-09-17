@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 13: Şartlı İfadeler (if-else if-else)</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body { height: auto; overflow: auto; padding: 2rem 1rem; }
+        .container { width: 100%; max-width: 800px; margin: 0 auto; }
+        .back-link { display: inline-block; color: var(--accent-color); text-decoration: none; margin-bottom: 2rem; font-weight: 500; transition: transform 0.2s ease; }
+        .back-link:hover { transform: translateX(-4px); }
+        header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--sunlit-clay); }
+        section { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; }
+        h2 { font-size: 1.3rem; color: var(--sunlit-clay); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7; }
+        ul, ol { list-style-position: inside; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.0rem; color: var(--text-secondary); }
+        li { color: var(--text-secondary); line-height: 1.6; }
+        li strong { color: var(--text-primary); }
+        pre { background-color: var(--disabled-bg) !important; border-radius: 8px; padding: 1.25rem; overflow-x: auto; border: 1px solid var(--border-color); margin-top: 1rem; }
+        code { font-family: 'Fira Code', monospace, Consolas, Monaco; font-size: 0.9rem; }
+        footer { text-align: center; margin-top: 3rem; font-size: 0.85rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+
+        <header>
+            <h1>Bölüm 13: Şartlı İfadeler (if-else if-else)</h1>
+        </header>
+
+        <section>
+            <p>Programlama dünyasında akış kontrolü sağlamanın temel taşı <strong>şartlı ifadelerdir</strong>. Bu yapılar, belirli koşulların doğru (True) veya yanlış (False) olmasına göre programın farklı yollardan ilerlemesine olanak tanır.</p>
+        </section>
+
+        <section>
+            <h2>1. if Yapısı ve Mantığı</h2>
+            <p><code>if</code> yapısı, parantez içindeki koşul sağlandığında (True döndüğünde) kendisine bağlı olan kod bloğunu çalıştırır. Koşul sağlanmazsa (False), program bu bloğu tamamen atlar.</p>
+            
+            <pre><code class="language-cpp">int notDegeri = 85;
+
+if (notDegeri >= 60) {
+  Serial.println("Gectiniz");
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>2. else ile Alternatif Yol</h2>
+            <p><code>else</code> komutu, <code>if</code> şartının sağlanmadığı tüm durumlarda otomatik olarak çalışır. Bir şartın tam tersini belirtmek için kullanılır ve herhangi bir parantez/koşul gerektirmez. İşlemci gücünden tasarruf sağlar çünkü <code>if</code> şartı sağlandığında <code>else</code> kısmına hiç bakılmaz.</p>
+        </section>
+
+        <section>
+            <h2>3. else if ile Çoklu Sorgulama</h2>
+            <p>İkiden fazla seçenek olduğunda <code>else if</code> yapısı devreye girer. Bu yapı, birbirine bağlı alternatif koşulları sırasıyla kontrol etmemizi sağlar.</p>
+
+            <pre><code class="language-cpp">if (notDegeri >= 60) {
+  Serial.println("Gectiniz");
+} else if (notDegeri >= 40) {
+  Serial.println("Sinava tekrar girebilirsiniz");
+} else {
+  Serial.println("Kaldiniz");
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>4. Önemli İpuçları ve Hatalar</h2>
+            <ul>
+                <li><strong>Süslü Parantez ({ }):</strong> Kontrol yapılarınız ne kadar kısa olursa olsun, kod okunabilirliğini ve yönetilebilirliğini artırmak için süslü parantez kullanmayı standart haline getirin.</li>
+                <li><strong>Sıralama Hatası:</strong> Çoklu sorgulamalarda en dar kapsamlı veya öncelikli şartları yukarıya yazmak mantık hatalarını (bug) önler.</li>
+                <li><strong>Değişken İsimleri:</strong> Arduino'nun kendi komutlarıyla (örneğin <code>int note</code> gibi) çakışan isimleri değişken olarak kullanmaktan kaçının; büyük-küçük harf duyarlılığına dikkat edin.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
