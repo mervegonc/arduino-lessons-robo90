@@ -9,7 +9,6 @@
     <!-- Ortak Tasarım Dosyası -->
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Ana Sayfa Akışkan Döküman Listesi İçin Özel Stil */
         .hero-section {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -139,7 +138,6 @@
             <p>Sıfırdan ileri seviyeye modern gömülü sistem öğrenim ve kod arşivi günlüğüm.</p>
         </header>
 
-        <!-- Karşılama ve Proje Açıklama Alanı -->
         <div class="hero-section">
             <h2>Proje Hakkında</h2>
             <p>
@@ -150,10 +148,7 @@
             </p>
         </div>
 
-        <!-- Aşağı Doğru Akan Dokümantasyon Listesi -->
-        <div class="docs-feed" id="docsFeed">
-            <!-- JavaScript ile doldurulacaktır -->
-        </div>
+        <div class="docs-feed" id="docsFeed"></div>
 
         <footer>
             <p>Built with passion by <a href="https://github.com/mervegonc" target="_blank" style="color: var(--accent-color); text-decoration: none;">Merve Göncü</a> • Hosted on GitHub Pages</p>
@@ -161,61 +156,52 @@
     </div>
 
     <script>
-        const lessonsData = {
-            1: "Arduino Nedir ve Ekosistem Mimarisi",
-            2: "setup() & loop() Mantığı ve Derleme",
-            3: "Dijital Pinler, pinMode, digitalWrite ve digitalRead",
-            4: "Arduino Syntax (Söz Dizimi), White Space ve Yorum Satırları",
-            5: "Arduino Syntax - Noktalı Virgül (;) Kullanımı",
-            6: "Değişken Tanımlama ve Veri Tipleri",
-            7: "Temel Matematik İşlemleri",
-            8: "Karşılaştırma ve Mantık Operatörleri",
-            9: "Şartlı İfadeler (if-else if-else)",
-            10: "While dan do while Döngüleri",
-            11: "for Döngüsü",
-            12: "break ve continue İfadeleri",
-            13: "Fonksiyonlar",
-            14: "Değişken Ömürleri ve Kapsamları",
-            15: "Arduino Dijital Pinleri ve Giriş/Çıkış İşlemleri",
-            16: "Arduino Const ve Define İfadeleri",
-            17: "Arduino ile Analog Giriş İşlemleri",
-            18: "Arduino Analog Çıkış İşlemleri ve PWM Tekniği",
-            19: "Arduino Antrenmanları (#23 - #27)",
-            20: "Switch-Case Kullanımı ve If-Else Farkı",
-            21: "Arduino Matematiksel Fonksiyonlar",
-            22: "Matematiksel Fonksiyonlar ve Zaman Yönetimi",
-            23: "Arduino Proje Geliştirme Süreci (Lesson-34)"
-        };
+        // Ekranda görünecek sıra (1, 2, 3...) ile arkadaki gerçek dosya numarasını eşleştiriyoruz
+        // Bölüm 1 yazana tıklandığında arkada lesson-2.html açılacak
+        const lessonsMap = [
+            { fileNum: 2, title: "Arduino Nedir ve Ekosistem Mimarisi" },
+            { fileNum: 3, title: "setup() & loop() Mantığı ve Derleme" },
+            { fileNum: 4, title: "Dijital Pinler, pinMode, digitalWrite ve digitalRead" },
+            { fileNum: 5, title: "Arduino Syntax (Söz Dizimi), White Space ve Yorum Satırları" },
+            { fileNum: 6, title: "Arduino Syntax - Noktalı Virgül (;) Kullanımı" },
+            { fileNum: 7, title: "Değişken Tanımlama ve Veri Tipleri" },
+            { fileNum: 8, title: "Temel Matematik İşlemleri" },
+            { fileNum: 9, title: "Karşılaştırma ve Mantık Operatörleri" },
+            { fileNum: 10, title: "Şartlı İfadeler (if-else if-else)" },
+            { fileNum: 11, title: "While ve do while Döngüleri" },
+            { fileNum: 12, title: "for Döngüsü" },
+            { fileNum: 13, title: "break ve continue İfadeleri" },
+            { fileNum: 14, title: "Fonksiyonlar" },
+            { fileNum: 15, title: "Değişken Ömürleri ve Kapsamları" },
+            { fileNum: 16, title: "Arduino Dijital Pinleri ve Giriş/Çıkış İşlemleri" },
+            { fileNum: 17, title: "Arduino Const ve Define İfadeleri" },
+            { fileNum: 18, title: "Arduino ile Analog Giriş İşlemleri" },
+            { fileNum: 19, title: "Arduino Analog Çıkış İşlemleri ve PWM Tekniği" },
+            { fileNum: 20, title: "Arduino Antrenmanları (#23 - #27)" },
+            { fileNum: 21, title: "Switch-Case Kullanımı ve If-Else Farkı" },
+            { fileNum: 22, title: "Arduino Matematiksel Fonksiyonlar" },
+            { fileNum: 23, title: "Matematiksel Fonksiyonlar ve Zaman Yönetimi" },
+            { fileNum: 24, title: "Arduino Proje Geliştirme Süreci (Lesson-34)" }
+        ];
 
         const feedContainer = document.getElementById('docsFeed');
-        const totalLessons = 23;
 
-        for (let i = 1; i <= totalLessons; i++) {
+        lessonsMap.forEach((lesson, index) => {
+            const displayNum = index + 1; // Ekranda 1, 2, 3 diye yazar
             const a = document.createElement('a');
             
-            if (lessonsData[i]) {
-                a.className = 'doc-item';
-                a.href = `./lesson-${i}`;
-                a.innerHTML = `
-                    <div class="doc-info">
-                        <span class="doc-num">Bölüm ${i}</span>
-                        <span class="doc-title">${lessonsData[i]}</span>
-                    </div>
-                    <span class="doc-arrow">→</span>
-                `;
-            } else {
-                a.className = 'doc-item disabled';
-                a.innerHTML = `
-                    <div class="doc-info">
-                        <span class="doc-num">Bölüm ${i}</span>
-                        <span class="doc-title">Yakında Yayınlanacak</span>
-                    </div>
-                    <span class="doc-arrow">•</span>
-                `;
-            }
+            a.className = 'doc-item';
+            a.href = `./lesson-${lesson.fileNum}`; // Gerçek dosya adına gider (lesson-2, lesson-3...)
+            a.innerHTML = `
+                <div class="doc-info">
+                    <span class="doc-num">Bölüm ${displayNum}</span>
+                    <span class="doc-title">${lesson.title}</span>
+                </div>
+                <span class="doc-arrow">→</span>
+            `;
             
             feedContainer.appendChild(a);
-        }
+        });
     </script>
 </body>
 </html>
