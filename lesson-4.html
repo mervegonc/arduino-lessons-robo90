@@ -196,6 +196,67 @@ void loop() {
             </div>
         </section>
 
+        <!-- BÖLÜM 5: LEDLER, DİRENÇLER VE OHM YASASI -->
+        <section>
+            <h2>5. Ek Ders: Ledler, Dirençler ve Ohm Yasası</h2>
+            <p>Elektronik devrelerde (özellikle LED yakma uygulamalarında) bileşenleri korumak ve doğru akım/gerilim dengesini kurabilmek için dirençlerin ve temel elektrik yasamız olan Ohm Kanunu'nun mantığını kavramamız gerekir.</p>
+
+            <h3>A. Renk Kodları ile Direnç Değeri Hesaplama</h3>
+            <p>Dirençlerin üzerindeki renk çizgileri, onların kaç Ohm olduğunu anlamamızı sağlar. Değerleri ezberlemek yerine standart renk tablosu mantığı kullanılır:</p>
+            <ul>
+                <li><strong>İlk iki renk:</strong> Sayı değeri olarak doğrudan yan yana yazılır.</li>
+                <li><strong>Üçüncü renk (Çarpan):</strong> 10'un kuvveti (üstel değer) olarak ilk iki sayıyla çarpılır.</li>
+                <li><strong>Dördüncü renk (Tolerans):</strong> Genellikle altın (<code>%5</code>) veya gümüş (<code>%10</code>) renktir ve direnç değerinin ne kadar sapabileceğini gösterir.</li>
+            </ul>
+            <p><em>Örnek (10 kΩ Direnç - Kahverengi, Siyah, Turuncu, Altın):</em> 
+            <br><code>1 (Kahve)</code> + <code>0 (Siyah)</code> → <code>10</code>. Çarpan <code>10³ (Turuncu)</code> → <code>10 × 1000 = 10.000 Ω (10 kΩ)</code>.</p>
+
+            <h3>B. LED'lerin Çalışma Mantığı ve Kutupları</h3>
+            <p>LED'ler (Light Emitting Diode) tek yönlü akım geçiren polariteli elemanlardır:</p>
+            <ul>
+                <li><strong>Uzun Bacak (Anot / +):</strong> Enerji (artı) tarafına bağlanır.</li>
+                <li><strong>Kısa Bacak (Katot / -):</strong> Toprak (GND / eksi) tarafına bağlanır.</li>
+                <li>Ters bağlanırsa elektrik geçirmez, yanmaz ve devrenin çalışmasını engeller.</li>
+            </ul>
+
+            <h3>C. Neden Direnç Kullanırız? ve Ohm Yasası ($V = I \times R$)</h3>
+            <p>Arduino Uno dijital pini <code>HIGH</code> yapıldığında çıkışa <code>5V</code> verir. Ancak standart bir kırmızı LED ortalama <code>1.8V - 2.2V</code> arasında çalışır ve maksimum <code>20 mA</code> akım dayanımına sahiptir. Doğrudan 5V verilirse LED bozulur. Fazla voltajı üzer almak için araya direnç koyarız.</p>
+            <p>Ohm Kanunu formülü:</p>
+            <pre><code class="language-none">V = I × R   -->   R = V / I</code></pre>
+            <p>Aradaki voltaj farkı ($5V - 1.8V = 3.2V$) ve hedeflenen akım ($20 mA = 0.02 A$) hesaba katıldığında teorik olarak gereken direnç yaklaşık <code>160 Ω</code> çıkar. Piyasada en yakın standart direnç olarak <code>220 Ω</code> veya güvenli standart başlangıç seti değeri olan <code>330 Ω</code> dirençler tercih edilir.</p>
+
+            <div class="pro-tip">
+                <strong>💡 Pratik İpucu:</strong> Yeni başlayanlar için kafa karışıklığını önlemek adına setlerden çıkan <strong>330 Ω</strong> dirençleri tüm renkli LED'lerde güvenle kullanabilirsiniz. LED parlaklığını artırmak için direnç değeri düşürülür, azaltmak için yükseltilir.
+            </div>
+        </section>
+
+        <!-- BÖLÜM 6: MEKANİK SWITCH KONTROLÜ VE PULL-UP / PULL-DOWN DİRENÇLERİ (YENİ EKLENEN VİDEO) -->
+        <section>
+            <h2>6. Ek Ders: Mekanik Switch Kontrolü ve Pull-up / Pull-down Dirençleri</h2>
+            <p>Mikrodenetleyici kartlarıyla çalışırken sıklıkla butonlar ve mekanik anahtarlama elemanları kullanırız. Bu elemanların bağlantı biçimlerinden ötürü, giriş yapacakları pinlerde mantıksal belirsizliklerin (floating / havada kalma durumu) önüne geçmek için <strong>Pull-up</strong> veya <strong>Pull-down</strong> dirençleri kullanmamız gerekir.</p>
+
+            <h3>A. Havada Kalma (Floating) Sorunu Nedir?</h3>
+            <p>Bir buton açık (basılmamış) konumdayken mikrodenetleyicinin dijital pinine fiziksel olarak ne <code>5V</code> ne de <code>0V</code> (GND) bağlı değildir. Pin bu durumda havada kalır ve ortamdaki elektromanyetik gürültülerden etkilenerek rastgele <code>HIGH</code> veya <code>LOW</code> okumaları yapar. Bu da butonun kendi kendine basılmış gibi algılanmasına yol açar.</p>
+
+            <h3>B. Pull-down Direnç Mantığı</h3>
+            <p>Pinin varsayılan olarak kararlı bir şekilde <code>LOW</code> (0V) okumasını istiyorsak <strong>Pull-down</strong> direnci kullanırız:</p>
+            <ul>
+                <li>Buton basılmadığı anda pin, bir direnç üzerinden doğrudan <code>GND</code>'ye (toprağa) bağlanır ve okunan değer kesin olarak <code>LOW</code> olur.</li>
+                <li>Butona basıldığında ise pin doğrudan <code>5V</code> kaynağına bağlanır ve direnci yenileyerek <code>HIGH</code> sinyali üretir.</li>
+            </ul>
+
+            <h3>C. Pull-up Direnç Mantığı</h3>
+            <p>Pinin varsayılan olarak kararlı bir şekilde <code>HIGH</code> (5V) okumasını istiyorsak <strong>Pull-up</strong> direnci kullanırız:</p>
+            <ul>
+                <li>Buton basılmadığı anda pin, bir direnç üzerinden <code>5V</code> hattına çekilir ve okunan değer sürekli <code>HIGH</code> olur.</li>
+                <li>Butona basıldığında pin kısa devre mantığıyla <code>GND</code>'ye çekilir ve değer <code>LOW</code> seviyesine düşer. Arduino projelerinde entegre <code>INPUT_PULLUP</code> modu bu mantığı harici dirence gerek kalmadan yazılımsal olarak çözer.</li>
+            </ul>
+
+            <div class="pro-tip">
+                <strong>💡 Özet Kural:</strong> Mekanik buton okuma projelerinde kararlı ve hatasız çalışan bir yazılım lojiği kurmanın ilk adımı, pini asla havada bırakmamak; mutlaka harici veya dahili dirençlerle lojik seviyeyi sabitlemektir.
+            </div>
+        </section>
+
         <footer>
             <p>Arduino Ders Serisi • Merve Göncü</p>
         </footer>
