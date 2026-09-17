@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 18: Arduino ile Analog Giriş İşlemleri</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 18: Arduino ile Analog Giriş İşlemleri</h1>
+        </header>
+
+        <section>
+            <p>Arduino Uno üzerinde dış dünyadaki sürekli değişen sinyalleri (sıcaklık, ışık, potansiyometre konumu vb.) okuyabilmek için <strong>A0 ile A5</strong> arasında etiketlenmiş 6 adet analog giriş pini bulunur. Bu bölümde analog sinyallerin dijital verilere dönüştürülme sürecini inceleyeceğiz.</p>
+        </section>
+
+        <section>
+            <h2>1. ADC (Analog-Digital Converter) ve Çözünürlük Mantığı</h2>
+            <ul>
+                <li><strong>Analog Okuma Komutu:</strong> Bir analog pinden değer okumak için <code>analogRead(pinAdi)</code> fonksiyonu kullanılır (Örn: <code>analogRead(A0)</code>).</li>
+                <li><strong>10-Bit Çözünürlük:</strong> Arduino Uno'daki analog dönüştürücü (ADC) 10-bitliktir. Bu da $2^{10} = 1024$ farklı değer anlamına gelir.</li>
+                <li><strong>Değer Aralığı:</strong> Analog pinden okunan değerler <strong>0 ile 1023</strong> arasındadır (0 dahil, toplam 1024 kademe).</li>
+                <li><strong>Ölçüm Hassasiyeti:</strong> Arduino 5 Volt ile çalıştığı için, 5000 mV'luk gerilim 1023 parçaya bölünür. Bu durum yaklaşık <strong>4.88 mV</strong> hassasiyetle okuma yapabileceğimiz anlamına gelir.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Kod Örneği: Potansiyometre Okuma ve Voltaj Hesaplama</h2>
+            <p>Aşağıdaki örnekte potansiyometreden gelen ham değer okunur ve bu değer matematiksel işlemlerle milivolt/volt cinsine dönüştürülerek Seri Monitöre yazdırılır:</p>
+
+            <pre><code class="language-cpp">int potPin = A0;   // Potansiyometrenin bağlı olduğu analog pin
+int deger = 0;     // Ham veriyi saklayacak değişken
+float voltaj = 0.0;// Hesaplanan gerilim değeri
+
+void setup() {
+  Serial.begin(9600); // Seri haberleşmeyi başlat
+}
+
+void loop() {
+  // A0 pininden 0 - 1023 arasında ham değer oku
+  deger = analogRead(potPin);
+
+  // Ham değeri milivolta çevir (Float hassasiyeti için 5000.0 kullanıldı)
+  voltaj = (deger * 5000.0) / 1023.0;
+
+  // Sonuçları Seri Monitöre yazdır
+  Serial.print("Ham Deger: ");
+  Serial.print(deger);
+  Serial.print(" | Voltaj: ");
+  Serial.print(voltaj);
+  Serial.println(" mV");
+
+  delay(500); // Yarım saniye bekle
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Önemli İpuçları</h2>
+            <p>Analog sensörlerden gelen ham <code>0-1023</code> verileri tek başına fiziksel bir anlam ifade etmez. Projelerinizde anlamlı sonuçlar elde edebilmek için bu ham verileri yukarıdaki örnekte olduğu gibi orantılayarak voltaja veya sıcaklık/mesafe gibi gerçek dünya birimlerine dönüştürmeniz gerekir.</p>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
