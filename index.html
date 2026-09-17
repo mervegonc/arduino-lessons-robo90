@@ -156,8 +156,7 @@
     </div>
 
     <script>
-        // Ekranda görünecek sıra (1, 2, 3...) ile arkadaki gerçek dosya numarasını eşleştiriyoruz
-        // Bölüm 1 yazana tıklandığında arkada lesson-2.html açılacak
+       
         const lessonsMap = [
             { fileNum: 2, title: "Arduino Nedir ve Ekosistem Mimarisi" },
             { fileNum: 3, title: "setup() & loop() Mantığı ve Derleme" },
@@ -187,11 +186,11 @@
         const feedContainer = document.getElementById('docsFeed');
 
         lessonsMap.forEach((lesson, index) => {
-            const displayNum = index + 1; // Ekranda 1, 2, 3 diye yazar
+            const displayNum = index + 1; 
             const a = document.createElement('a');
             
             a.className = 'doc-item';
-            a.href = `./lesson-${lesson.fileNum}`; // Gerçek dosya adına gider (lesson-2, lesson-3...)
+            a.href = `./lesson-${lesson.fileNum}`; 
             a.innerHTML = `
                 <div class="doc-info">
                     <span class="doc-num">Bölüm ${displayNum}</span>
