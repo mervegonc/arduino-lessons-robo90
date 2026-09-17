@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm: 23 Matematiksel Fonksiyonlar ve Zaman Yönetimi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #00979D;
+            border-bottom: 2px solid #00979D;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #005f73;
+            margin-top: 30px;
+        }
+        .card {
+            background: #fff;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d63384;
+        }
+        pre {
+            background: #212529;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            color: #f8f9fa;
+            background: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #00979D;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Arduino Eğitim Notları: Matematik & Zaman Yönetimi</h1>
+    <p>Bu sayfada Robo90 Arduino Dersleri kapsamında işlenen <b>Matematiksel Fonksiyonlar</b> ve <b>Delay Kullanmadan Zaman Yönetimi (millis)</b> konuları özetlenmiştir.</p>
+
+    <h2>1. Matematiksel Fonksiyonlar (Lesson-22)</h2>
+    
+    <div class="card">
+        <h3>Öne Çıkan Komutlar</h3>
+        <ul>
+            <li><code>sq() / square()</code>: Verilen parametrenin karesini alır.</li>
+            <li><code>sqrt()</code>: Karekök alır. Geriye hassasiyet nedeniyle <code>Double</code> türünde değer döndürür.</li>
+            <li><code>pow(taban, us)</code>: Üs alma işlemi yapar.</li>
+            <li><code>min() / max()</code>: İki sayı arasında küçük veya büyük olanı seçer.</li>
+            <li><code>abs()</code>: Mutlak değer hesaplar.</li>
+            <li><code>constrain(deger, min, max)</code>: Bir değeri belirli sınırlar arasında sabitler; dışındaysa sınırlara çeker.</li>
+            <li><code>map(deger, min1, max1, min2, max2)</code>: Bir aralıktaki veriyi orantılı olarak başka bir aralığa dönüştürür (Örn: Potansiyometreyi servo açıya çevirme).</li>
+        </ul>
+    </div>
+
+    <h2>2. Delay Kullanmadan Bekleme Yapmak (Lesson-32)</h2>
+    
+    <div class="card">
+        <h3>Neden <code>millis()</code> Kullanmalıyız?</h3>
+        <p><code>delay()</code> komutu çalışırken Arduino'yu tamamen durdurur (bloklar). Bu durum, arka planda basılan butonların veya sensör verilerinin **kaçırılmasına** yol açar. <code>millis()</code> fonksiyonu ile kod bloklanmadan aynı anda birden fazla iş yürütülebilir.</p>
+        
+        <pre><code>unsigned long eskiZaman = 0;
+const long beklemeSuresi = 1000; // 1 saniye
+
+void loop() {
+  unsigned long simdikiZaman = millis();
+
+  // 1 saniye geçip geçmediğini kontrol et
+  if (simdikiZaman - eskiZaman >= beklemeSuresi) {
+    eskiZaman = simdikiZaman;
+    // Zamanı gelen işlemler burada yapılır (Örn: LED durumunu değiştir)
+  }
+
+  // Bu sayede buton okuma gibi işlemler hiç gecikmeden anında çalışır
+  digitalRead(3); 
+}</code></pre>
+    </div>
+
+    <h2>Özet Karşılaştırma</h2>
+    <table>
+        <tr>
+            <th>Konu</th>
+            <th>Temel Araçlar</th>
+            <th>Avantajı</th>
+        </tr>
+        <tr>
+            <td>Matematiksel İşlemler</td>
+            <td><code>map()</code>, <code>constrain()</code>, <code>pow()</code> vb.</td>
+            <td>Karmaşık hesaplamaları ve sensör-aktüatör kalibrasyonlarını kolaylaştırır.</td>
+        </tr>
+        <tr>
+            <td>Zaman Yönetimi</td>
+            <td><code>millis()</code>, <code>unsigned long</code></td>
+            <td>Programın kilitlenmesini önler, eş zamanlı (non-blocking) görev yönetimini sağlar.</td>
+        </tr>
+    </table>
+
+</body>
+</html>
