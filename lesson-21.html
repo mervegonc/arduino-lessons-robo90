@@ -1,0 +1,294 @@
+html_content = """<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm :21 Switch-Case Kullanımı ve If-Else Farkı</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            Line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            Line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
+        
+        <header>
+            <h1>Switch-Case Kullanımı ve If-Else Farkı - Robo90 #28</h1>
+        </header>
+
+        <!-- Bölüm 1: Giriş ve Temel Problem Senaryosu -->
+        <section>
+            <h2>Giriş ve Temel Problem Senaryosu</h2>
+            <p>Programlamada kontrol yapılarının önemli bir üyesi olan <strong>Switch-Case</strong> yapısı [cite: xznDQX-hENA], bir değişkenin alabileceği farklı sabit değerleri ayrı ayrı incelemek ve programın akışına yön vermek amacıyla kullanılır [cite: xznDQX-hENA]. Konuyu en iyi şekilde kavramak için pratik bir senaryo ele alınmıştır: <em>Kendisine verilen ay numarasına göre (1-12 arası) o ayın kaç gün çektiğini ekrana yazdıran bir program geliştirmek [cite: xznDQX-hENA].</em></p>
+            <ul>
+                <li><strong>Ocak, Mart, Mayıs, Temmuz, Ağustos, Ekim, Aralık:</strong> 31 gün çeker.</li>
+                <li><strong>Nisan, Haziran, Eylül, Kasım:</strong> 30 gün çeker.</li>
+                <li><strong>Şubat:</strong> Normal yıllarda 28, artık yıllarda 29 gün çeker.</li>
+            </ul>
+        </section>
+
+        <!-- Bölüm 2: If-Else Yapısı ile Çözüm -->
+        <section>
+            <h2>If-Else Yapısı ile Çözüm</h2>
+            <p>Benzer bir problemi çözmek için ilk olarak aşina olduğumuz <code>if-else</code> ve <code>else if</code> yapıları kullanılabilir. Aşağıdaki örnek kod bloğu bu mantığı temel almaktadır [cite: xznDQX-hENA]:</p>
+            <pre><code class="language-cpp">int ay = 7; // Örnek olarak Temmuz ayı seçildi
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (ay == 1 || ay == 3 || ay == 5 || ay == 7 || ay == 8 || ay == 10 || ay == 12) {
+    Serial.println("31 gün çeker");
+  } 
+  else if (ay == 4 || ay == 6 || ay == 9 || ay == 11) {
+    Serial.println("30 gün çeker");
+  } 
+  else if (ay == 2) {
+    Serial.println("28 ya da 29 gün çeker");
+  } 
+  else {
+    Serial.println("Hata: Ay sadece 1 ile 12 arasında olabilir!");
+  }
+  
+  delay(5000);
+}</code></pre>
+        </section>
+
+        <!-- Bölüm 3: Switch-Case Yapısı ile Temel Kullanım -->
+        <section>
+            <h2>Switch-Case Yapısı ile Temel Kullanım</h2>
+            <p>Aynı senaryo <strong>Switch-Case</strong> yapısı kullanılarak her ay için ayrı bir <code>case</code> bloğu oluşturulacak şekilde şu şekilde yazılabilir [cite: xznDQX-hENA]:</p>
+            <ul>
+                <li><strong>switch(degisken):</strong> Kontrol edilecek değişken parantez içine yazılır [cite: xznDQX-hENA].</li>
+                <li><strong>case Değer:</strong> Değişkenin o anki eşleşebileceği sabit durumları ifade eder [cite: xznDQX-hENA].</li>
+                <li><strong>break:</strong> İlgili durumun çalışması bittikten sonra switch-case bloğundan çıkılmasını sağlar. Eğer <code>break</code> unutulursa akış bir sonraki case bloğuna akmaya (fall-through) devam eder [cite: xznDQX-hENA].</li>
+                <li><strong>default:</strong> Belirtilen case durumlarının hiçbirine uymayan (else karşılığı olan) durumları yakalar [cite: xznDQX-hENA].</li>
+            </ul>
+            <pre><code class="language-cpp">int ay = 7;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  switch (ay) {
+    case 1:
+      Serial.println("Ocak: 31 gün çeker");
+      break;
+    case 2:
+      Serial.println("Şubat: 28 ya da 29 gün çeker");
+      break;
+    case 3:
+      Serial.println("Mart: 31 gün çeker");
+      break;
+    case 4:
+      Serial.println("Nisan: 30 gün çeker");
+      break;
+    case 5:
+      Serial.println("Mayıs: 31 gün çeker");
+      break;
+    case 6:
+      Serial.println("Haziran: 30 gün çeker");
+      break;
+    case 7:
+      Serial.println("Temmuz: 31 gün çeker");
+      break;
+    case 8:
+      Serial.println("Ağustos: 31 gün çeker");
+      break;
+    case 9:
+      Serial.println("Eylül: 30 gün çeker");
+      break;
+    case 10:
+      Serial.println("Ekim: 31 gün çeker");
+      break;
+    case 11:
+      Serial.println("Kasım: 30 gün çeker");
+      break;
+    case 12:
+      Serial.println("Aralık: 31 gün çeker");
+      break;
+    default:
+      Serial.println("Hata: Ay sadece 1 ile 12 arasında olabilir!");
+      break;
+  }
+  
+  delay(5000);
+}</code></pre>
+        </section>
+
+        <!-- Bölüm 4: Case Gruplandırma (Optimizasyon) Tekniği -->
+        <section>
+            <h2>Case Gruplandırma (Optimizasyon) Tekniği</h2>
+            <p>Switch-case yapısının en büyük avantajlarından biri, birden fazla <code>case</code> durumunun ortak bir sonucu paylaştığı durumlarda araya <code>break</code> koymayarak kodun alt alta gruplandırılabilmesidir. Bu sayede kod daha temiz ve okunabilir hale gelir [cite: xznDQX-hENA]:</p>
+            <pre><code class="language-cpp">int ay = 7;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  switch (ay) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      Serial.println("31 gün çeker");
+      break;
+      
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+      Serial.println("30 gün çeker");
+      break;
+      
+    case 2:
+      Serial.println("28 ya da 29 gün çeker");
+      break;
+      
+    default:
+      Serial.println("Hata: Ay değeri 1-12 arasında olmalıdır!");
+      break;
+  }
+  
+  delay(5000);
+}</code></pre>
+        </section>
+
+        <!-- Bölüm 5: If-Else ve Switch-Case Karşılaştırması -->
+        <section>
+            <h2>If-Else ve Switch-Case Karşılaştırması</h2>
+            <ul>
+                <li><strong>If-Else Yapısı:</strong> Mantıksal aralıklar (örneğin <code>x > 5 && x < 10</code>), koşullu ifadeler ve karmaşık boolean kıyaslamaları için çok daha uygundur [cite: xznDQX-hENA].</li>
+                <li><strong>Switch-Case Yapısı:</strong> Tek bir değişkenin farklı sabit değerlerle (1, 2, 'A', 'B' vb.) eşleştirilmesi gerektiği durumlarda kod okunabilirliğini artırır ve derleme aşamasında optimizasyon avantajı sağlar [cite: xznDQX-hENA].</li>
+                <li><strong>Performans Notu:</strong> Yapıların mikrodenetleyici üzerindeki çalışma hızı farkı, küçük ölçekli hobi ve Arduino projelerinde insan gözüyle fark edilebilecek düzeyde bir değişiklik yaratmaz; seçim genellikle kodun okunabilirliğine ve geliştirme kolaylığına göre yapılır [cite: xznDQX-hENA].</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Robo90 Arduino Dersleri Serisi • Analiz ve Kod Arşivi</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+"""
+
+with open("lesson-21.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+print("lesson-21.html başarıyla oluşturuldu.")
