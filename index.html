@@ -3,27 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arduino Ders Serisi</title>
+    <title>Arduino Ders Serisi | Dokümantasyon ve Öğrenim Günlüğü</title>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Ortak Tasarım Dosyası -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Ana Sayfa Akışkan Döküman Listesi İçin Özel Stil */
+        .hero-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-section h2 {
+            color: var(--sunlit-clay);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .docs-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .doc-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .doc-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .doc-item.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .doc-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .doc-num {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .doc-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .doc-arrow {
+            color: var(--text-secondary);
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .doc-item:hover .doc-arrow {
+            transform: translateX(4px);
+            color: var(--accent-color);
+        }
+
+        body.home-body {
+            height: auto;
+            overflow: auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .home-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--sunlit-clay);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
 </head>
 <body class="home-body">
     <div class="fluid-bg"></div>
     <script src="main.js"></script>
-    <header>
-        <h1>Arduino Ders Serisi</h1>
-        <p>Sıfırdan ileri seviyeye modern gömülü sistem öğrenim günlüğüm</p>
-    </header>
 
-    <div class="grid-container" id="gridContainer">
-        <!-- JavaScript ile 24 ders otomatik yerleştirilecektir -->
+    <div class="home-container">
+        <header>
+            <h1>Arduino Ders Serisi & Dokümantasyon</h1>
+            <p>Sıfırdan ileri seviyeye modern gömülü sistem öğrenim ve kod arşivi günlüğüm.</p>
+        </header>
+
+        <!-- Karşılama ve Proje Açıklama Alanı -->
+        <div class="hero-section">
+            <h2>Proje Hakkında</h2>
+            <p>
+                Bu platform; popüler <strong>Robo90 Arduino Video Serisi</strong> takip edilerek oluşturulmuş kapsamlı bir teknik dokümantasyon ve açık kaynak kod arşividir. Temel elektronik kavramlarından gelişmiş zaman yönetimine, sensör entegrasyonlarından mühendislik süreçlerine kadar her dersin detaylı analizleri, kod blokları ve uygulama adımları burada derlenmektedir.
+            </p>
+            <p>
+                Aşağıdaki akışlı liste üzerinden ders içeriklerine sırasıyla ulaşabilir, kodları inceleyebilir ve gömülü sistem geliştirme yolculuğumun tüm aşamalarını detaylıca takip edebilirsiniz.
+            </p>
+        </div>
+
+        <!-- Aşağı Doğru Akan Dokümantasyon Listesi -->
+        <div class="docs-feed" id="docsFeed">
+            <!-- JavaScript ile doldurulacaktır -->
+        </div>
+
+        <footer>
+            <p>Built with passion by <a href="https://github.com/mervegonc" target="_blank" style="color: var(--accent-color); text-decoration: none;">Merve Göncü</a> • Hosted on GitHub Pages</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>Built with passion by <a href="https://github.com/mervegonc" target="_blank">Merve Göncü</a> • Hosted on GitHub Pages</p>
-    </footer>
 
     <script>
         const lessonsData = {
@@ -53,28 +188,34 @@
             24: "Arduino Proje Geliştirme Süreci (Lesson-34)"
         };
 
-        const container = document.getElementById('gridContainer');
+        const feedContainer = document.getElementById('docsFeed');
         const totalLessons = 24;
 
         for (let i = 1; i <= totalLessons; i++) {
             const a = document.createElement('a');
-            a.className = 'lesson-box';
             
             if (lessonsData[i]) {
+                a.className = 'doc-item';
                 a.href = `./lesson-${i}`;
                 a.innerHTML = `
-                    <span class="lesson-num">Bölüm ${i}</span>
-                    <span class="lesson-short-title">${lessonsData[i]}</span>
+                    <div class="doc-info">
+                        <span class="doc-num">Bölüm ${i}</span>
+                        <span class="doc-title">${lessonsData[i]}</span>
+                    </div>
+                    <span class="doc-arrow">→</span>
                 `;
             } else {
-                a.classList.add('disabled');
+                a.className = 'doc-item disabled';
                 a.innerHTML = `
-                    <span class="lesson-num">Bölüm ${i}</span>
-                    <span class="lesson-short-title">Yakında</span>
+                    <div class="doc-info">
+                        <span class="doc-num">Bölüm ${i}</span>
+                        <span class="doc-title">Yakında Yayınlanacak</span>
+                    </div>
+                    <span class="doc-arrow">•</span>
                 `;
             }
             
-            container.appendChild(a);
+            feedContainer.appendChild(a);
         }
     </script>
 </body>
