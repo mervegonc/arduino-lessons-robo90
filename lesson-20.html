@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bölüm 20: Arduino Antrenmanları (LED ve Buton Uygulamaları)</title>
+    <title>Arduino Eğitim Serisi - Robo90 #23 - #27</title>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -117,79 +117,264 @@
         <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
         
         <header>
-            <h1>Bölüm 20: Arduino Antrenmanları (LED ve Buton Uygulamaları)</h1>
+            <h1>Arduino ve Temel Uygulamalar Serisi (Örnek 1-5) - Robo90 #23 - #27</h1>
         </header>
 
-        <!-- Kısım 1: LED Antrenmanı -->
+        <!-- Bölüm 1: Arduino ve LED'ler ile Antrenman (1. Örnek) - Robo90 #23 -->
         <section>
-            <h2>1. Bölüm: Arduino ve LED'ler ile Antrenman (1. Örnek)</h2>
-            <p>Bu bölümde, daha önce öğrenilen temel komutlar (değişkenler, döngüler, <code>pinMode</code>, <code>digitalWrite</code>) pekiştirilerek çoklu LED kontrolü ve kod optimizasyonu incelenmiştir.</p>
+            <h2>Arduino ve LED'ler ile Antrenman (1. Örnek) - Robo90 #23</h2>
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1rem; margin-bottom: 0.5rem;">Devre Kurulumu ve Donanım Detayları</h3>
+            <p>Bu uygulamada breadboard üzerine 5 farklı renkte LED yerleştirilmiştir. LED'lerin kısa bacakları (katot) ortak bir hat üzerinden Arduino'nun <strong>GND</strong> pinine bağlanırken, uzun bacakları (anot) sırasıyla dijital pinlere yönlendirilmiştir.</p>
             <ul>
-                <li><strong>Kod Tasarrufu:</strong> Her bir LED için ayrı ayrı satırlar yazmak yerine, döngü yapıları kullanarak toplu kontrol sağlanmıştır.</li>
-                <li><strong>Adım Adım Geliştirme Kültürü:</strong> Önce donanım bağlantılarının doğruluğu test edilmiş, ardından kod kademeli olarak inşa edilmiştir.</li>
+                <li><strong>Bağlantı Pinleri:</strong> Dijital 2, 3, 4, 5 ve 6 numaralı pinler.</li>
+                <li><strong>Amaç:</strong> Döngüler ve temel komutlar yardımıyla LED'ler üzerinde farklı yakma animasyonları gerçekleştirmek.</li>
             </ul>
 
-            <p><strong>Örnek Kod Yapısı (Sıralı LED Yakma):</strong></p>
-            <pre><code class="language-cpp">int ledPins[] = {2, 3, 4, 5, 6}; // LED pin dizisi
-int ledCount = 5;
-
-void setup() {
-  for (int i = 0; i < ledCount; i++) {
-    pinMode(ledPins[i], OUTPUT);
-  }
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">1. Uygulama: Tüm LED'leri Aynı Anda Yakıp Söndürme</h3>
+            <p>Temel seviyede tüm dijital pinleri çıkış (OUTPUT) olarak ayarlayıp, aynı anda HIGH ve LOW komutlarıyla bütün LED'lerin beraber çalışması sağlanmıştır.</p>
+            <pre><code class="language-cpp">void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
 }
 
 void loop() {
-  for (int i = 0; i < ledCount; i++) {
-    digitalWrite(ledPins[i], HIGH);
-    delay(150);
-    digitalWrite(ledPins[i], LOW);
+  // Tüm LED'leri Aç
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  delay(1000);
+
+  // Tüm LED'leri Kapat
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  delay(1000);
+}</code></pre>
+
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">2. Uygulama: For Döngüsü ile Sıralı Tarama</h3>
+            <p>Kod kalabalığından kaçınmak ve pratiklik kazanmak adına <code>for</code> döngüleri kullanılarak önce 2'den 6'ya doğru artan, ardından 6'dan 2'ye doğru azalan sıralı bir akış kurulmuştur.</p>
+            <pre><code class="language-cpp">void loop() {
+  // 2'den 6'ya doğru sırayla yak
+  for (int i = 2; i <= 6; i++) {
+    digitalWrite(i, HIGH);
+    delay(500);
+  }
+  
+  // 6'dan 2'ye doğru sırayla söndür
+  for (int i = 6; i >= 2; i--) {
+    digitalWrite(i, LOW);
+    delay(500);
+  }
+}</code></pre>
+
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">3. Uygulama: İç İçe Döngülerle Her LED'i 10'ar Kez Yakma</h3>
+            <p>Her bir LED'in kendi içinde 10 defa hızlıca yanıp sönmesi ve ardından sıradaki LED'e geçmesi sağlanmıştır. Uçlardaki çakışmaları önlemek için sınır değerler optimize edilmiştir.</p>
+            <pre><code class="language-cpp">void loop() {
+  // İleri Yönlü Tarama (Her biri 10 kez yanıp söner)
+  for (int i = 2; i <= 6; i++) {
+    for (int c = 0; c < 10; c++) {
+      digitalWrite(i, HIGH);
+      delay(100);
+      digitalWrite(i, LOW);
+      delay(100);
+    }
+  }
+  
+  // Geri Yönlü Tarama (Sınır ayarlı)
+  for (int i = 5; i >= 3; i--) {
+    for (int c = 0; c < 10; c++) {
+      digitalWrite(i, HIGH);
+      delay(100);
+      digitalWrite(i, LOW);
+      delay(100);
+    }
   }
 }</code></pre>
         </section>
 
-        <!-- Kısım 2: Butonlarla Sayaç Uygulaması -->
+        <!-- Bölüm 2: Arduino ve Buton Antrenmanı (2. Örnek) - Robo90 #24 -->
         <section>
-            <h2>2. Bölüm: Arduino ve Butonlar ile Antrenman (Sayaç Örneği)</h2>
-            <p>Bu uygulamada iki adet buton kullanılarak bir sayaç kontrol mekanizması oluşturulmuştur. Artırma ve azaltma butonlarıyla güncel sayaç değeri Serial Monitör üzerinden takip edilmektedir.</p>
+            <h2>Arduino ve Buton Antrenmanı (2. Örnek) - Robo90 #24</h2>
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1rem; margin-bottom: 0.5rem;">Uygulama Amacı ve Devre Mimarisi</h3>
+            <p>Temel C/C++ ve donanım eğitiminin bu aşamasında, butonlar ve anahtarlama devreleri ile ilgili pratikler pekiştirilmektedir. Bu uygulamada buton durumlarına bağlı olarak dijital çıkışların (LED'lerin) mantıksal denetimi gerçekleştirilir.</p>
             <ul>
-                <li><strong>Mekanik Parazit ve Döngü Hızı:</strong> Arduino mikrodenetleyicisi insan eline göre çok hızlı çalıştığı için, tek bir basışta döngünün binlerce kez dönmesini engellemek adına parmak kaldırılana kadar bekleyen <code>while</code> döngüleri ve küçük gecikmeler kullanılmıştır.</li>
+                <li><strong>Temel Bileşenler:</strong> Push button (itmeli buton), dirençler (pull-up / pull-down), LED'ler ve bağlantı kabloları.</li>
+                <li><strong>Öğrenilen Kazanım:</strong> Dijital giriş pinlerinden veri okuma (<code>digitalRead</code>) ve bu verileri karar yapılarıyla (<code>if-else</code>) işleme.</li>
             </ul>
 
-            <p><strong>Sayaç Kontrol Kodu Örneği:</strong></p>
-            <pre><code class="language-cpp">const int minusPin = 4; // Azaltma butonu
-const int plusPin = 8;  // Artırma butonu
-int counter = 0;        // Sayaç değişkeni
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">Örnek Kontrol Kodu Yapısı</h3>
+            <p>Butona basılma durumuna göre LED'in durumunu değiştiren temel mantıksal kontrol yapısı:</p>
+            <pre><code class="language-cpp">const int buttonPin = 2; // Butonun bağlı olduğu dijital pin
+const int ledPin = 8;    // LED'in bağlı olduğu dijital pin
 
 void setup() {
-  pinMode(minusPin, INPUT);
-  pinMode(plusPin, INPUT);
-  Serial.begin(9600);
+  pinMode(buttonPin, INPUT); // Buton pini giriş olarak ayarlanır
+  pinMode(ledPin, OUTPUT);   // LED pini çıkış olarak ayarlanır
 }
 
 void loop() {
-  // Artırma butonuna basıldı mı?
-  if (digitalRead(plusPin) == HIGH) {
-    counter++;
-    Serial.println(counter);
-    while (digitalRead(plusPin) == HIGH) {
-      delay(10);
-    }
-  }
+  int buttonState = digitalRead(buttonPin); // Buton durumu okunur
 
-  // Azaltma butonuna basıldı mı?
-  if (digitalRead(minusPin) == HIGH) {
-    counter--;
-    Serial.println(counter);
-    while (digitalRead(minusPin) == HIGH) {
-      delay(10);
-    }
+  // Butona basıldıysa (örneğin HIGH okunduysa)
+  if (buttonState == HIGH) {
+    digitalWrite(ledPin, HIGH); // LED'i yak
+  } else {
+    digitalWrite(ledPin, LOW);  // LED'i söndür
   }
+}</code></pre>
+        </section>
+
+        <!-- Bölüm 3: Arduino ve Butonlar ile LED Kontrolü (3. Örnek) - Robo90 #25 -->
+        <section>
+            <h2>Arduino ve Butonlar ile LED Kontrolü (3. Örnek) - Robo90 #25</h2>
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1rem; margin-bottom: 0.5rem;">Devre Kurulumu ve Donanım Detayları</h3>
+            <p>Bu uygulamada algoritma kurma yeteneklerini geliştirmek amacıyla <strong>2 adet buton</strong> ve <strong>4 adet farklı renkte LED</strong> (Kırmızı, Mavi, Yeşil, Sarı) kullanılmaktadır.</p>
+            <ul>
+                <li><strong>LED Pinleri:</strong> Sırasıyla dijital 2, 3, 4 ve 5 numaralı pinler.</li>
+                <li><strong>Buton Pinleri:</strong> Dijital 8 ve 9 numaralı pinler.</li>
+                <li><strong>Temel Amaç:</strong> Buton durumlarına göre anlık tepki (basılı tutulduğu sürece) ve kalıcı durum değiştirme (toggling / aç-kapat mantığı) senaryolarını kodlamak.</li>
+            </ul>
+
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">1. Senaryo: Butona Basılı Tutulduğunda LED'leri Yakma</h3>
+            <p>İlk butona (Button 1) basıldığı sürece tüm LED'lerin yanması, el çekildiğinde ise sönmesi sağlanmıştır.</p>
+            <pre><code class="language-cpp">const int btn1 = 8;
+const int led1 = 2, led2 = 3, led3 = 4, led4 = 5;
+
+void setup() {
+  pinMode(btn1, INPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(btn1) == HIGH) {
+    // Butona basılıyken tüm LED'leri aç
+    digitalWrite(led1, HIGH);
+    digitalWrite(2, HIGH); // Örnek olarak doğrudan pinler de yazılabilir
+    digitalWrite(3, HIGH);
+    digitalWrite(4, HIGH);
+  } else {
+    // El çekildiğinde tüm LED'leri kapat
+    digitalWrite(led1, LOW);
+    digitalWrite(2, LOW);
+    digitalWrite(3, LOW);
+    digitalWrite(4, LOW);
+  }
+}</code></pre>
+
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">2. Senaryo: Bas-Bırak (Toggle) Mantığı ile Kalıcı Kontrol</h3>
+            <p>İkinci butona bir kez basıp el çekildiğinde LED'lerin sürekli yanık kalması, aynı butona tekrar basılıp çekildiğinde ise sönmesi (tıklamalı tükenmez kalem mantığı) sağlanmıştır.</p>
+            <pre><code class="language-cpp">const int btn2 = 9;
+int state = 0; // Durum hafızası değişkeni
+
+void loop() {
+  if (digitalRead(btn2) == HIGH) {
+    state = !state; // State değerini tersine çevir (0 ise 1, 1 ise 0 yap)
+    
+    // Duruma göre LED'leri sür
+    if (state == 1) {
+      digitalWrite(2, HIGH); digitalWrite(3, HIGH);
+      digitalWrite(4, HIGH); digitalWrite(5, HIGH);
+    } else {
+      digitalWrite(2, LOW); digitalWrite(3, LOW);
+      digitalWrite(4, LOW); digitalWrite(5, LOW);
+    }
+    
+    delay(100); // Kararsızlıkları (bouncing) önlemek için gecikme
+    while(digitalRead(btn2) == HIGH); // Butondan el çekilene kadar bekle
+  }
+}</code></pre>
+        </section>
+
+        <!-- Bölüm 4: Arduino ve Potansiyometre ile LED Kontrolü (4. Örnek) - Robo90 #26 -->
+        <section>
+            <h2>Arduino ve Potansiyometre ile LED Kontrolü (4. Örnek) - Robo90 #26</h2>
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1rem; margin-bottom: 0.5rem;">Uygulama Amacı ve Devre Kurulumu</h3>
+            <p>Bu uygulamada bir potansiyometre kullanılarak LED'in parlaklığının kontrol edilmesi (dimmer mantığı) işlenmektedir.</p>
+            <ul>
+                <li><strong>LED Bağlantısı:</strong> PWM destekli dijital pin olan <strong>3 numaralı pin</strong> (çıkış).</li>
+                <li><strong>Potansiyometre Bağlantısı:</strong> Analog giriş pinlerinden <strong>A0 pini</strong>. Analog pinler varsayılan olarak giriş (INPUT) modunda çalıştığı için <code>pinMode</code> tanımı gerektirmez.</li>
+                <li><strong>Temel Kazanım:</strong> Analog okuma (<code>analogRead</code> - 0 ile 1023 arası değerler) ile PWM çıkış (<code>analogWrite</code> - 0 ile 255 arası değerler) arasındaki veri aralığı uyumsuzluğunu gidermek için <strong>map()</strong> fonksiyonunun kullanımı.</li>
+            </ul>
+
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">Örnek Kontrol Kodu Yapısı</h3>
+            <p>Potansiyometreden okunan 0-1023 arasındaki değerlerin <code>map()</code> fonksiyonu yardımıyla 0-255 aralığına ölçeklenerek LED parlaklığını ayarlamakta kullanılmasını sağlayan kod:</p>
+            <pre><code class="language-cpp">const int ledPin = 3;   // PWM özellikli LED pini
+const int potPin = A0;  // Potansiyometre analog giriş pini
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  // Not: Analog pinler otomatik input olduğu için pinMode(potPin, INPUT) gerekmez.
+}
+
+void loop() {
+  // 1. Potansiyometreden 0 - 1023 arasında ham değer oku
+  int potValue = analogRead(potPin);
+  
+  // 2. map() fonksiyonu ile değeri 0 - 255 aralığına ölçekle
+  // map(değer, minGirdi, maxGirdi, minÇıktı, maxÇıktı)
+  int ledBrightness = map(potValue, 0, 1023, 0, 255);
+  
+  // 3. Ölçeklenen değeri PWM çıkışı üzerinden LED'e gönder
+  analogWrite(ledPin, ledBrightness);
+}</code></pre>
+        </section>
+
+        <!-- Bölüm 5: Arduino ile LDR Kullanımı (5. Örnek) - Robo90 #27 -->
+        <section>
+            <h2>Arduino ile LDR Kullanımı (5. Örnek) - Robo90 #27</h2>
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1rem; margin-bottom: 0.5rem;">Uygulama Amacı ve Devre Kurulumu</h3>
+            <p>Bu uygulamada ortamdaki ışık şiddetine göre direnç değiştiren <strong>LDR (Light Dependent Resistor - Işığa Bağımlı Direnç / Fotoresistör)</strong> bileşeninin kullanımı işlenmektedir. Amaç, LDR'den gelen analog verileri okuyarak aydınlık/karanlık durumlarına göre bir LED'i veya sistemi kontrol etmektir.</p>
+            <ul>
+                <li><strong>LDR Bağlantısı:</strong> Analog giriş pinlerinden biri (Örn: <strong>A0 pini</strong>). LDR, analog pin ile besleme gerilimi (5V veya GND) arasında bir sabit dirençle (pull-up/pull-down mantığıyla gerilim bölücü devre) bağlanır.</li>
+                <li><strong>LED Bağlantısı:</strong> Dijital pin veya PWM çıkış pini (Örn: <strong>3 numaralı pin</strong>).</li>
+                <li><strong>Temel Kazanım:</strong> Sensör dinamiklerini anlamak, analog okuma değerlerini eşik (threshold) mantığıyla mantıksal kararlara dönüştürmek.</li>
+            </ul>
+
+            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem;">Örnek Kontrol Kodu Yapısı</h3>
+            <p>Ortam karardığında (LDR değeri belirli bir eşiğin altına düştüğünde) LED'in yanmasını, aydınlandığında ise sönmesini sağlayan temel eşik kontrol kodu:</p>
+            <pre><code class="language-cpp">const int ldrPin = A0;  // LDR'nin bağlı olduğu analog pin
+const int ledPin = 3;   // LED'in bağlı olduğu dijital pin
+int ldrValue = 0;       // LDR'den okunan değerleri saklamak için değişken
+const int threshold = 500; // Karanlık eşik değeri
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);   // Seri haberleşmeyi başlat
+}
+
+void loop() {
+  // 1. LDR'den analog ışık değerini oku (0 - 1023 arası)
+  ldrValue = analogRead(ldrPin);
+  
+  // Okunan değeri ekrana yazdırarak eşik değerini gözlemle
+  Serial.print("LDR Değeri: ");
+  Serial.println(ldrValue);
+  
+  // 2. Ortam ışığına göre karar ver
+  if (ldrValue < threshold) {
+    // Ortam karanlıksa LED'i yak
+    digitalWrite(ledPin, HIGH);
+  } else {
+    // Ortam aydınlıksa LED'i söndür
+    digitalWrite(ledPin, LOW);
+  }
+  
+  delay(100); // Kararlı okuma için kısa bir gecikme
 }</code></pre>
         </section>
 
         <footer>
-            <p>Arduino Ders Serisi • Merve Göncü</p>
+            <p>Robo90 Arduino Dersleri Serisi • Analiz ve Kod Arşivi</p>
         </footer>
     </div>
 
