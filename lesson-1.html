@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 1: Arduino Nedir ve Ekosistem Mimarisi | Arduino Dersleri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .lesson-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+        .lesson-header {
+            margin-bottom: 2.5rem;
+        }
+        .lesson-header h1 {
+            font-size: 2.2rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 0.5rem;
+        }
+        .lesson-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        .content-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+        .content-card h2 {
+            color: var(--sunlit-clay);
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-card h3 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .content-card p, .content-card li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        .content-card ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="fluid-bg"></div>
+    <script src="main.js"></script>
+
+    <div class="lesson-container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+
+        <div class="lesson-header">
+            <h1>Bölüm 1: Arduino Nedir ve Ekosistem Mimarisi</h1>
+            <p>Gömülü sistemler dünyasına adım atış, tarihçe ve temel donanım mimarisi.</p>
+        </div>
+
+        <div class="content-card">
+            <h2>Giriş ve Temel Açıklamalar</h2>
+            <p>
+                Bu derste, elektronik ve yazılım dünyasını birbirine bağlayan en popüler açık kaynaklı prototipleme platformu olan <strong>Arduino</strong>'nun temellerini atıyoruz. Karmaşık mikrodenetleyici programlamasını herkes için erişilebilir kılmak amacıyla geliştirilen bu ekosistem, hem donanım hem de yazılım tarafında esnek bir altyapı sunar.
+            </p>
+
+            <div class="highlight-box">
+                <strong>Temel Hedef:</strong> Arduino kartlarının mantığını kavramak, geliştirme ortamını (IDE) tanımak ve gömülü sistemlerin çalışma prensiplerine giriş yapmak.
+            </div>
+
+            <h2>Arduino'nun Tarihçesi</h2>
+            <p>
+                Arduino projesi, 2005 yılında İtalya'nın Ivrea şehrinde bulunan <em>Interaction Design Institute Ivrea</em>'da öğrencilerininteraktif tasarım projelerini daha ucuz ve hızlı bir şekilde geliştirebilmesi için bir araştırma projesi olarak başladı.
+            </p>
+            <ul>
+                <h3>Önemli Dönüm Noktaları:</h3>
+                <li><strong>İsim Kaynağı:</strong> Adını İtalya'da bulunan tarihi bir kraldan (Arduino of Ivrea) gelen aynı adı taşıyan bir bardan almıştır.</li>
+                <li><strong>Açık Kaynak Devrimi:</strong> Donanım ve yazılım dosyalarının tamamen açık kaynak (open-source) olarak paylaşılması, dünya çapında devasa bir geliştirici topluluğunun oluşmasını tetiklemiştir.</li>
+                <li><strong>Wiring ve Processing:</strong> Temelleri, Processing diline dayanan Wiring projesine dayanır; bu sayede C/C++ karmaşıklığı soyutlanarak daha sade bir söz dizimi elde edilmiştir.</li>
+            </ul>
+
+            <h2>Arduino Ekosistem Mimarisi</h2>
+            <p>
+                Arduino sistemi temel olarak iki ana bileşenden oluşur:
+            </p>
+            <ul>
+                <li><strong>Hardware (Donanım):</strong> Üzerinde bir mikrodenetleyici (genellikle Atmel/Microchip AVR serisi) barındıran, giriş/çıkış pinlerine sahip elektronik devre kartlarıdır (Örn: Arduino Uno, Nano, Mega).</li>
+                <li><strong>Software (Yazılım - IDE):</strong> Kodları yazıp derlememizi ve karta yüklememizi sağlayan Arduino Entegre Geliştirme Ortamı'dır. İşlem C/C++ altyapısıyla gerçekleşir.</li>
+            </ul>
+
+            <h2>Özet ve Sonraki Adım</h2>
+            <p>
+                Bu girişle birlikte Arduino'nun ne olduğunu, nereden geldiğini ve neden bu kadar popüler olduğunu öğrendik. Bir sonraki bölümde geliştirme ortamının kurulumuna ve ilk temel yapı taşlarına (`setup` ve `loop` döngüleri) geçiş yapacağız.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
