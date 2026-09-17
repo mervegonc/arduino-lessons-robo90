@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bölüm 15: for Döngüsü</title>
+    <title>Bölüm 15: Değişken Ömürleri ve Kapsamları</title>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -28,7 +28,7 @@
 
         .back-link {
             display: inline-block;
-            color: var(--accent-color);
+            cölor: var(--accent-color);
             text-decoration: none;
             margin-bottom: 2rem;
             font-weight: 500;
@@ -64,7 +64,7 @@
 
         p {
             color: var(--text-secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.0rem;
             line-height: 1.7;
         }
 
@@ -92,7 +92,7 @@
             padding: 1.25rem;
             overflow-x: auto;
             border: 1px solid var(--border-color);
-            margin-top: 1rem;
+            margin-top: 1.0rem;
         }
 
         code {
@@ -118,69 +118,49 @@
         
 
         <header>
-            <h1>Bölüm 15: for Döngüsü</h1>
+            <h1>Bölüm 15: Değişken Ömürleri ve Kapsamları</h1>
         </header>
 
         <section>
-            <p>Kontrol yapılarının en önemli ve en sık kullanılan üyelerinden biri olan <strong><code>for</code> döngüsü</strong>, özellikle bir işlemin <em>belli ve net bir sayıda</em> tekrarlanmasını istediğimiz durumlarda son derece pratik ve düzenli bir kullanım sunar.</p>
+            <p>Yazılım projelerimiz büyüdükçe, değişken sayısı arttıkça ve bellek alanı daraldıkça kod yönetiminde zorluklar yaşanabilir. Bu süreçte bellek optimizasyonu ve kodun kararlılığı için değişkenlerin nerede tanımlandığını, ömürlerini ve erişilebildikleri alanları (kapsamlarını) iyi bilmek büyük önem taşır.</p>
         </section>
 
         <section>
-            <h2>1. for Döngüsünün Yapısı ve Parametreleri</h2>
-            <p><code>for</code> döngüsü parantez içerisine girilen 3 temel parametre ile çalışır. Bu parametreler birbirinden <strong>noktalı virgül (;)</strong> ile ayrılır:</p>
-            
-            <ol>
-                <li><strong>Başlangıç Değeri:</strong> Döngüyü kontrol edecek olan sayacın hangi değerden başlayacağını belirtir (Örn: <code>int i = 0;</code>). Genellikle döngü başında tanımlanır.</li>
-                <li><strong>Devam Şartı:</strong> Döngünün çalışmaya devam etmesi için gereken koşuldur. Şart doğru (True) olduğu sürece döngü döner, yanlış (False) olduğunda biter (Örn: <code>i < 10;</code>).</li>
-                <li><strong>Güncelleme:</strong> Her döngü turunun sonunda sayaç değişkeninin nasıl değiştirileceğini (arttırılacağını veya azaltılacağını) belirler (Örn: <code>i++</code>).</li>
-            </ol>
-
-            <pre><code class="language-cpp">void setup() {
-  Serial.begin(9600);
-
-  // i 0'dan başlar, 10'dan küçük olduğu sürece çalışır, her turda 1 artar
-  for (int i = 0; i < 10; i++) {
-    Serial.print("Döngü Adimi: ");
-    Serial.println(i);
-  }
-}
-
-void loop() {
-}</code></pre>
-        </section>
-
-        <section>
-            <h2>2. Süslü Parantez ({ }) Kullanımı ve Çalışma Mantığı</h2>
-            <p>Tıpkı <code>if</code> ve <code>while</code> yapılarında olduğu gibi, <code>for</code> döngüsü de varsayılan olarak yalnızca kendinden sonraki <strong>ilk satır kodu</strong> kontrol eder. Birden fazla satırı döngü içine dahil etmek için mutlaka süslü parantez <code>{ }</code> kullanılmalıdır.</p>
+            <h2>1. Global Değişkenler</h2>
+            <p>Herhangi bir fonksiyonun (<code>setup()</code>, <code>loop()</code> vb.) veya süslü parantezin içine hapsedilmeden, doğrudan programın en üst kısmında tanımlanan değişkenlerdir.</p>
             <ul>
-                <li><strong>Çalışma Sırası:</strong> Önce başlangıç değeri atanır $\rightarrow$ Şart kontrol edilir $\rightarrow$ Kod bloğu çalıştırılır $\rightarrow$ Güncelleme (artış/azalış) yapılır. Bu döngü, şart bozulana kadar aynı sırayla tekrarlanır.</li>
+                <li><strong>Erişilebilirlik:</strong> Kodun her yerinden (tüm fonksiyonların içerisinden) rahatlıkla erişilebilir ve kullanılabilirler.</li>
+                <li><strong>Ömür:</strong> Program çalıştığı sürece bellekte kalırlar.</li>
             </ul>
         </section>
 
         <section>
-            <h2>3. Alternatif Kullanımlar ve Esneklikler</h2>
-            <p>Nadiren de olsa, <code>for</code> döngüsünün 3 parametresi döngü tanımının dışında veya farklı şekillerde tanımlanabilir. Örneğin sayaç değişkeni döngüden önce tanımlanabilir veya artış işlemi döngü gövdesine taşınabilir. Ancak aradaki noktalı virgül yerleşimi korunmalıdır:</p>
+            <h2>2. Lokal (Yerel) Değişkenler ve Öncelik Sıralaması</h2>
+            <p>Adından da anlaşılacağı üzere, tanımlandıkları blok veya fonksiyonun (süslü parantezlerin <code>{ }</code>) sınırları içerisinde geçerli olan değişkenlerdir. Dıştaki başka bir fonksiyondan bu değişkenlere erişilemez.</p>
+            <ul>
+                <li><strong>Aynı İsim Çakışması:</strong> Hem global alanda hem de lokal alanda aynı isimde değişken tanımlanırsa, derleyici önceliği her zaman <strong>lokal değişkene</strong> verir. Lokal alanda o isimde bir değişken yoksa global olana bakar.</li>
+                <li><strong>Ömür:</strong> Tanımlandıkları fonksiyon veya döngü çalışmaya başladığında bellekte yer alır, işlem bittiğinde veya ilgili blok sonlandığında (örneğin döngü turu bittiğinde) bellekten silinirler (ölçülürler).</li>
+            </ul>
 
-            <pre><code class="language-cpp">int i = 0; // Sayaç dışarıda tanımlandı
+            <pre><code class="language-cpp">int ortakDeger = 10; // Global değişken
 
 void setup() {
   Serial.begin(9600);
-
-  for (; i < 5;) { // Parametreler boş bırakılsa bile noktalı virgüller kalmalı
-    Serial.println(i);
-    i++; // Güncelleme içeride yapıldı
-  }
+  int ortakDeger = 5; // Lokal değişken (Öncelik lokaldekindedir)
+  
+  Serial.println(ortakDeger); // Ekran kalabalığında 5 yazar
 }
 
-void loop() {}</code></pre>
+void loop() {
+  // Serial.println(ortakDeger); -> Globaldeki 10 değerini kullanır
+}</code></pre>
         </section>
 
         <section>
-            <h2>4. for ile while Döngüsü Arasındaki Farklar</h2>
-            <p>Mantıksal olarak <code>for</code> ile yapılan her şeyi <code>while</code> ile (veya tam tersini) yapmak mümkündür. Aralarındaki temel pratik farklar şunlardır:</p>
+            <h2>3. Bellek Verimliliği ve En İyi Uygulamalar (Best Practices)</h2>
             <ul>
-                <li><strong>for Döngüsü:</strong> Bir işlemin <em>kaç kez</em> tekrarlanacağı net olarak biliniyorsa (örneğin 10 defa, 50 defa) en temiz ve toplu çözümdür. Sayacın tanımlanması, koşulu ve artışı tek satırda toplanır.</li>
-                <li><strong>while Döngüsü:</strong> İşlemin kaç kez döneceği baştan kesin olarak bilinmiyorsa, dışarıdan gelen bir duruma veya şarta bağlı olarak ("şu olana kadar dön") çalışacaksa daha çok tercih edilir.</li>
+                <li><strong>Bellek İsrafı:</strong> Her şeyi global tanımlamak belleğin verimsiz kullanılmasına yol açar. Lokal değişkenler işleri bittiğinde bellekten silindiği için sistem kaynaklarını rahatlatır.</li>
+                <li><strong>Büyük Projelerde Yönetim:</strong> Karmaşık ve çok dosyalı projelerde global değişkenlerin takibi zorlaşır, bu nedenle mümkün mertebe lokal değişkenler tercih edilmelidir.</li>
             </ul>
         </section>
 
