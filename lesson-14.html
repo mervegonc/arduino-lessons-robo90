@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 14: While ve Do-While Döngüleri</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 14: While ve Do-While Döngüleri</h1>
+        </header>
+
+        <section>
+            <p>Yazılımda belirli bir koşulun doğruluğuna bağlı olarak işlemlerin tekrarlanmasını sağlayan kontrol yapılarından biri <strong><code>while</code> döngüsüdür</strong>. Koşul sağlandığı sürece blok içerisindeki kodlar çalışmaya devam eder.</p>
+        </section>
+
+        <section>
+            <h2>1. While Döngüsünün Yapısı ve Çalışma Mantığı</h2>
+            <p><code>while</code> döngüsü, parantez içerisindeki şartın (True) kontrolüyle başlar. Sayacın döngü dışında tanımlanması ve döngü içerisinde mutlaka güncellenmesi gerekir, aksi takdirde program <strong>sonsuz döngüye</strong> girer.</p>
+            
+            <pre><code class="language-cpp">void setup() {
+  Serial.begin(9600);
+
+  int sayac = 0;
+  
+  // sayac 5'ten küçük olduğu sürece çalışır
+  while (sayac < 5) {
+    Serial.println(sayac);
+    sayac++; // Değer artırılmazsa sonsuz döngü oluşur
+  }
+}
+
+void loop() {
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>2. Do-While Döngüsü</h2>
+            <p>Normal <code>while</code> döngüsünde koşul baştan kontrol edilir; eğer şart başlangıçta yanlışsa döngü hiç çalışmaz. Ancak <strong><code>do-while</code></strong> döngüsünde blok koşula bakılmaksızın <strong>en az bir kez</strong> mutlaka çalıştırılır, koşul kontrolü ise döngünün <em>sonunda</em> yapılır.</p>
+            
+            <pre><code class="language-cpp">void setup() {
+  Serial.begin(9600);
+
+  int sayaci = 10;
+
+  do {
+    Serial.println(sayaci);
+    sayaci++;
+  } while (sayaci < 5); // Şart yanlış olsa bile blok en az 1 kez çalışmıştır
+}
+
+void loop() {
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Kullanım Alanları ve Dikkat Edilmesi Gerekenler</h2>
+            <ul>
+                <li><strong>Sonsuz Döngü Riski:</strong> Sayaç artırımı veya koşulu değiştirecek parametre unutulursa mikrodenetleyici kilitlenebilir.</li>
+                <li><strong>Sensör ve Seri Port Beklemeleri:</strong> Belirli bir dış koşul oluşana kadar (örneğin butona basılana ya da seri porttan veri gelene kadar) programı bekletmek için sıklıkla tercih edilir.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
