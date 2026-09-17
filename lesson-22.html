@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm: 22 Arduino Matematiksel Fonksiyonlar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #00979D;
+            border-bottom: 2px solid #00979D;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #005f73;
+            margin-top: 30px;
+        }
+        .function-card {
+            background: #fff;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d63384;
+        }
+        pre {
+            background: #212529;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            color: #f8f9fa;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Arduino Temel Matematiksel Fonksiyonlar</h1>
+    <p>Bu sayfada, Arduino programlama dilinde kod yükünü hafifleten ve sıkça kullanılan temel matematik fonksiyonları yer almaktadır.</p>
+
+    <div class="function-card">
+        <h2>1. Square (`square` / `sq`)</h2>
+        <p>Kendisine verilen parametrenin karesini geri döndürür.</p>
+        <pre><code>int a = 5;
+int sonuc = sq(a); // Sonuç: 25</code></pre>
+    </div>
+
+    <div class="function-card">
+        <h2>2. Square Root (`sqrt`)</h2>
+        <p>Bir sayının karekökünü alır. Geriye hassasiyet gereği <code>Double</code> (Arduino'da genellikle <code>float</code> ile aynı) veri tipinde değer döndürür.</p>
+        <pre><code>int sayi = 144;
+double sonuc = sqrt(sayi); // Sonuç: 12.00</code></pre>
+    </div>
+
+    <div class="function-card">
+        <h2>3. Power (`pow`)</h2>
+        <p>Üs alma işlemidir. İki parametre alır: birinci parametre taban, ikincisi üüstür. Sonucu <code>Double</code> türünde döndürür.</p>
+        <pre><code>// 5 üzeri 2 hesabı
+double sonuc = pow(5, 2); // Sonuç: 25.00</code></pre>
+    </div>
+
+    <div class="function-card">
+        <h2>4. Min & Max (`min`, `max`)</h2>
+        <p><b>`min()`:</b> Verilen iki parametreden daha küçük olanı seçer.<br>
+           <b>`max()`:</b> Verilen iki parametreden daha büyük olanı seçer.</p>
+        <pre><code>int kucuk = min(5, 2); // Sonuç: 2</code></pre>
+    </div>
+
+    <div class="function-card">
+        <h2>5. Absolute Value (`abs`)</h2>
+        <p>Bir sayının mutlak değerini hesaplar. Negatif sayıları pozitif yapar.</p>
+        <pre><code>int sonuc = abs(-851); // Sonuç: 851</code></pre>
+    </div>
+
+    <div class="function-card">
+        <h2>6. Constrain (`constrain`)</h2>
+        <p>Bir değeri belirli bir alt ve üst sınır arasında tutmak için kullanılır. Değer aralığın dışındaysa en yakın sınıra çekilir. Üç parametre alır: <code>(deger, min, max)</code>.</p>
+        <pre><code>// Değer 5 ama sınırlar 10 ile 150. Sonuç min sınır olan 10 olur.
+int sinirliDeger = constrain(5, 10, 150);</code></pre>
+    </div>
+
+    <div class="function-card">
+        <h2>7. Map (`map`)</h2>
+        <p>Bir aralıktaki veriyi başka bir aralığa orantılı (lineer) bir şekilde dönüştürür. Beş parametre alır: <code>(deger, min_girdi, max_girdi, min_cikti, max_cikti)</code>.</p>
+        <pre><code>// Potansiyometreden gelen 0-1023 arasını, servo motor için 0-180 arasına çevirir
+int servoAci = map(potDegeri, 0, 1023, 0, 180);</code></pre>
+    </div>
+
+</body>
+</html>
