@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 17: Arduino Const ve Define İfadeleri</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 17: Arduino Const ve Define İfadeleri</h1>
+        </header>
+
+        <section>
+            <p>Arduino projelerinde pin numaralarını veya sabit değerleri yönetirken doğrudan sayısal ifadeler kullanmak yerine isimler vermek kod okunabilirliğini artırır. Bu tanımlamaları yaparken standart değişkenler yerine <strong>const</strong> veya <strong>#define</strong> yapılarını kullarak bellek tasarrufu ve kod güvenliği sağlayabiliriz.</p>
+        </section>
+
+        <section>
+            <h2>1. Sabit Tanımlama Yöntemleri Karşılaştırması</h2>
+            <p>Projelerde sabit değerleri (örneğin pin numaralarını veya Pi sayısını) belirtmek için üç temel yaklaşım bulunur:</p>
+            <ul>
+                <li><strong>Normal Değişken (`int`):</strong> Değeri sonradan program içinde değiştirilebilir. Bellekte yer kaplar.</li>
+                <li><strong>Sabit Değişken (`const`):</strong> Tanımlandıktan sonra değeri değiştirilemez (salt okunur). Bellekte yer kaplar ve hata denetimi sağlar.</li>
+                <li><strong>Ön Derleyici Komutu (`#define`):</strong> Derleme aşamasında metin tabanlı olarak kodun içindeki ifadeleri doğrudan sayılarla değiştirir. Bellekte değişken için yer harcamaz.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Kod Örneği ve Kullanım Biçimleri</h2>
+            <p>Aşağıdaki örnekte <code>const int</code> ve <code>#define</code> komutlarının kod içerisindeki kullanım kalıpları gösterilmiştir:</p>
+
+            <pre><code class="language-cpp">// #define Kullanımı (Noktalı virgül kullanılmaz, genellikle büyük harfle yazılır)
+#define LED_BLUE 3
+#define BUTON_PIN 8
+
+// const int Kullanımı (Salt okunur sabit değişken)
+const int LED_RED = 2;
+int sayac = 0; // Normal, değeri değiştirilebilir değişken
+
+void setup() {
+  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_BLUE, OUTPUT);
+  pinMode(BUTON_PIN, INPUT);
+}
+
+void loop() {
+  // LED_RED = 5; -> HATA! const değişkenlerin değeri sonradan değiştirilemez.
+  sayac++;      // Normal değişkenlerin değeri değiştirilebilir.
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. En İyi Uygulamalar ve İsimlendirme Kuralları</h2>
+            <p>Yazılım geliştirme standartlarında, program boyunca değişmeyecek olan sabit tanımlamaların (pin numaraları, sabit katsayılar vb.) <strong>büyük harflerle</strong> yazılması önerilir. Bu sayede kodu inceleyen diğer geliştiriciler veya siz, hangi ifadenin sabit olduğunu hızlıca fark edebilirsiniz.</p>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
