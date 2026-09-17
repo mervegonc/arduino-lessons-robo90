@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bölüm 16: Arduino Dijital Pinlerini Çıkış Olarak Kullanmak</title>
+    <title>Bölüm 16: Arduino Dijital Pinleri ve Giriş/Çıkış İşlemleri</title>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -118,7 +118,7 @@
         
 
         <header>
-            <h1>Bölüm 16: Arduino Dijital Pinlerini Çıkış Olarak Kullanmak</h1>
+            <h1>Bölüm 16: Arduino Dijital Pinleri ve Giriş/Çıkış İşlemleri</h1>
         </header>
 
         <section>
@@ -129,7 +129,7 @@
             <h2>1. Arduino Uno Dijital Pin Yapısı ve Özel Pinler</h2>
             <ul>
                 <li><strong>PWM Pinleri (~):</strong> 3, 5, 6, 9, 10 ve 11 numaralı pinlerin yanında bulunan dalga işareti, bu pinlerin PWM (Darbe Genişlik Modülasyonu) çıkışı olarak da kullanılabileceğini gösterir.</li>
-                <li><strong>TX ve RX Pinleri (0 ve 1):</strong> Haberleşme pinleridir. USB üzerinden bilgisayarla seri haberleşme yapılırken kullanılırlar. Kod yüklerken veya seri monitör kullanılırken bu pinlerin boşta olması önerilir; aksi takdirde bağlantılar iletişimi bozabilir.</li>
+                <li><strong>TX ve RX Pinleri (0 ve 1):</strong> Haberleşme pinleridir. USB üzerinden bilgisayarla seri haberleşme yapılırken kullanılırlar. Kod yüklerken veya seri monitör kullanılırken bu pinlerin boşta olması önerilir; aksi takdirde bağlantılar iletişimi bozabilir. Tüm dijital pinler dolduğunda ve ihtiyaç duyulursa analog giriş pinleri de dijital giriş amacıyla kullanılabilir.</li>
                 <li><strong>Akım Sınırları:</strong> Pin başına maksimum 40 mA akım çekilebilir (tavsiye edilen güvenli sınır pin başı azami 20 mA, toplamda ise 200 mA'i geçmemektir).</li>
             </ul>
         </section>
@@ -176,8 +176,39 @@ void loop() {
         </section>
 
         <section>
-            <h2>3. En İyi Uygulamalar</h2>
-            <p>Donanım bağlantılarında karmaşayı önlemek ve hangi pinin nereye bağlı olduğunu kolayca hatırlayabilmek için doğrudan sayısal pin numaraları yerine anlamlı değişken isimleri (örneğin <code>ledGreen</code>) kullanmak her zaman daha temiz bir yazılım yaklaşımıdır.</p>
+            <h2>3. Dijital Giriş Komutları ve Buton Kullanımı (`digitalRead`)</h2>
+            <p>Arduino'nun dijital pinlerini yalnızca dışarıya enerji vermek için değil, dış dünyadan (örneğin bir andan/butondan) durum bilgisi okumak için de <strong>giriş (INPUT)</strong> olarak kullanabiliriz.</p>
+            <ul>
+                <li><strong>Pin Modu (INPUT):</strong> Dışarıdan sinyal okuyabilmek için ilgili pin <code>pinMode(pinNumarasi, INPUT);</code> komutuyla giriş olarak tanımlanır.</li>
+                <li><strong>Dijital Okuma (`digitalRead`):</strong> Pideki anlık lojik seviyeyi okumak için <code>digitalRead(pinNumarasi)</code> fonksiyonu kullanılır. Bu fonksiyon dışarıdan gelen duruma göre <code>1 (HIGH)</code> veya <code>0 (LOW)</code> değerini döndürür.</li>
+                <li><strong>Pull-up / Pull-down Dirençleri:</strong> Buton bağlantılarında kayan (floating) durumların önüne geçmek ve kararlı bir lojik seviye elde etmek için direnç kullanımı şarttır. Doğru bağlantı senaryosunda buton basılmadığında 0, basıldığında 1 (veya tam tersi) okunması sağlanır.</li>
+            </ul>
+
+            <pre><code class="language-cpp">// Dijital giriş ve çıkışların bir arada kullanımı (Buton ile LED kontrolü)
+int butonPin = 8;
+int ledRed = 2;   // Önceki örnekten LED pinimiz
+
+void setup() {
+  pinMode(butonPin, INPUT);  // 8 numaralı pini giriş olarak ayarla
+  pinMode(ledRed, OUTPUT);   // 2 numaralı pini çıkış olarak ayarla
+}
+
+void loop() {
+  // Butonun anlık durumunu oku
+  int butonDurumu = digitalRead(butonPin);
+
+  // Eğer butona basıldıysa (durum HIGH / 1 ise)
+  if (butonDurumu == HIGH) {
+    digitalWrite(ledRed, HIGH); // LED'i yak
+  } else {
+    digitalWrite(ledRed, LOW);  // LED'i söndür
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>4. En İyi Uygulamalar</h2>
+            <p>Donanım bağlantılarında karmaşayı önlemek, kodun okunabilirliğini artırmak ve hangi pinin nereye bağlı olduğunu kolayca hatırlayabilmek için doğrudan sayısal pin numaraları yerine anlamlı değişken isimleri (örneğin <code>ledGreen</code>, <code>butonPin</code>) kullanmak her zaman en temiz yazılım yaklaşımıdır.</p>
         </section>
 
         <footer>
