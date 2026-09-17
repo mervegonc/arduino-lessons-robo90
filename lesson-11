@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 11: while ve do while Döngüleri</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 11: while ve do while Döngüleri</h1>
+        </header>
+
+        <section>
+            <p>Arduino projelerinde aynı işlemi defalarca kez yapmanız gereken durumlarla sıkça karşılaşırsınız. Bir komutu alt alta 100 kere yazmak yerine <strong>döngüleri (loops)</strong> kullanarak bu işlemleri çok daha akılcı ve dinamik bir şekilde otomatize edebilirsiniz.</p>
+        </section>
+
+        <section>
+            <h2>1. while Döngüsü</h2>
+            <p><code>while</code> döngüsü, parantez içine yazılan şart <strong>doğru (True) olduğu sürece</strong> çalışmaya devam eder. Döngü bloğuna girmeden <em>önce</em> şart kontrol edilir. Şart bozulduğu anda (False olduğunda) döngü sona erer.</p>
+            
+            <ul>
+                <li><strong>Önemli Kural (Sonsuz Döngü Tehlikesi):</strong> Eğer döngü içerisinde koşulu değiştirecek bir işlem (örneğin sayacı artırmak) yapmazsanız, şart her zaman doğru kalacağı için program <em>sonsuz döngüye</em> girer ve kitlenir.</li>
+            </ul>
+
+            <pre><code class="language-cpp">int i = 0; // Sayacımız
+
+void setup() {
+  Serial.begin(9600);
+  
+  // i değeri 5'ten küçük olduğu sürece çalışır
+  while (i < 5) {
+    Serial.print("Döngü calisiyor: ");
+    Serial.println(i);
+    
+    i++; // i'nin değerini 1 artırır (Sonsuz döngüyü engeller!)
+  }
+}
+
+void loop() {
+  // Döngü boş
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>2. do while Döngüsü</h2>
+            <p><code>do while</code> döngüsünün en büyük farkı, şartı döngüye girerken değil, döngüden çıkarken kontrol etmesidir. Bu şu anlama gelir: <strong>Şart yanlış (False) olsa bile, içindeki kodlar en az 1 kez kesinlikle çalıştırılır.</strong></p>
+            
+            <ul>
+                <li><strong>Sözdizimi Kuralı:</strong> <code>do while</code> yapısında en sonda yer alan <code>while(şart)</code> ifadesinin bitimine mutlaka <strong>noktalı virgül (;)</strong> konulmalıdır.</li>
+            </ul>
+
+            <pre><code class="language-cpp">int i = 10; // Başlangıç değerimiz bilerek şartan büyük
+
+void setup() {
+  Serial.begin(9600);
+
+  do {
+    // 10 değeri 5'ten küçük olmamasına rağmen bu kod 1 kez çalışacaktır.
+    Serial.println("Bu mesaj en az 1 kere ekrana yazdirilir.");
+    i++;
+  } while (i < 5); // Şart kontrolü sonda yapılır.
+}
+
+void loop() {
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Hangisini Ne Zaman Kullanmalıyız?</h2>
+            <p>Çoğu zaman projelerinizde ağırlıklı olarak <strong><code>while</code></strong> (veya sonraki derslerde göreceğimiz <code>for</code>) döngüsünü kullanacaksınız. Ancak, bir işlemi şarta bağlı kalmaksızın <em>kesinlikle ilk başta bir kez yapıp</em>, ardından duruma göre devam etmesini istediğiniz nadir (fakat kritik) anlarda <strong><code>do while</code></strong> hayat kurtarıcı olacaktır.</p>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
