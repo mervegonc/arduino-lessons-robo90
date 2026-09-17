@@ -95,12 +95,26 @@
             padding: 1.25rem;
             overflow-x: auto;
             border: 1px solid var(--border-color);
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         code {
             font-family: 'Fira Code', monospace, Consolas, Monaco;
             font-size: 0.9rem;
+        }
+
+        .pro-tip {
+            background-color: rgba(247, 187, 103, 0.05);
+            border-left: 4px solid var(--sunlit-clay);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .pro-tip strong {
+            color: var(--text-primary);
         }
 
         footer {
@@ -175,6 +189,30 @@ void loop() {
                 <li><strong>Derleyici (Compiler):</strong> IDE içerisindeki derleyici, yazdığımız insan dostu kodları tarar, yazım hatası olup olmadığını kontrol eder ve bu kodları mikrodenetleyicinin anladığı saf <strong>makine diline (0 ve 1'lerden oluşan ikili koda)</strong> dönüştürür.</li>
                 <li>IDE üzerindeki <strong>"Kontrol Et" (✔)</strong> butonuna bastığında kodun sadece derlenir (hatasız olup olmadığı denetlenir); <strong>"Yükle" (➡)</strong> butonuna bastığında ise önce derlenip ardından karta aktarılır.</li>
             </ul>
+        </section>
+
+        <!-- BÖLÜM 6 (YENİ EKLENEN VİDEO): BREADBOARD VE JUMPER KABLO KULLANIMI -->
+        <section>
+            <h2>6. Ek Ders: Breadboard (Deney Kartı) ve Jumper Kablo Kullanımı</h2>
+            <p>Elektronik devreleri lehim yapmaya gerek kalmadan, geçici olarak hızlıca kurabilmemizi sağlayan en temel araç <strong>Breadboard (Deney Kartı)</strong>dır. Devre kurarken hata yapmamak için iç yapısını çok iyi bilmemiz gerekir.</p>
+
+            <h3>A. Breadboard İç Yapısı ve Bağlantı Yolları</h3>
+            <p>Breadboard delikleri görünmez metal yollarla birbirine içeriden bağlıdır:</p>
+            <ul>
+                <li><strong>Besleme Hatları (Güç Rayları - Yan Kısımlar):</strong> Genellikle kenarlarda boydan boya uzanan <code>+</code> (kırmızı) ve <code>-</code> (mavi/siyah) çizgili ikişer adet uzun hat bulunur. Bataryadan veya Arduino'dan gelen <code>5V</code> ve <code>GND</code> güçlerini tüm karta yatay olarak dağıtmak için kullanılır.</li>
+                <li><strong>Orta Sütunlar (Ana Bağlantı Alanı):</strong> Orta kısımda yer alan delikler <strong>dikey olarak</strong> beşerli gruplar halinde birbirine bağlıdır. Harflerle (A, B, C, D, E ve F, G, H, I, J) ve sayılarla sütun-satır matrisi oluştururlar. Aynı sütundaki 5 delik kendi arasında elektriksel olarak ortadaki kanalla bölünmüş şekilde tek bir noktadır.</li>
+            </ul>
+
+            <h3>B. Jumper Kablo Türleri ve Kullanımı</h3>
+            <p>Elektronik bileşenleri birbiriyle veya Arduino pinleriyle buluşturmak için <strong>Jumper Kablolar</strong> kullanılır:</p>
+            <ul>
+                <li><strong>Erkek - Erkek (M-M):</strong> Her iki ucu da iğne uçludur. Doğrudan breadboard deliklerine ve Arduino'nun dişi pin headerlarına takmak için kullanılır.</li>
+                <li><strong>Erkek - Dişi (M-F):</strong> Bir ucu iğne, diğer ucu soketlidir. Genellikle sensör modülleri ile breadboard arasında köprü kurarken tercih edilir.</li>
+            </ul>
+
+            <div class="pro-tip">
+                <strong>💡 Altın Kural:</strong> Devre kurarken güç bağlantılarını (<code>5V</code> ve <code>GND</code>) karıştırmamak için standart renk kodlarına dikkat etmelisin: Pozitif hatlar için hep <strong>Kırmızı</strong>, negatif (Toprak) hatlar için ise hep <strong>Siyah</strong> veya <strong>Mavi</strong> jumper kablolar kullanmak hayat kurtarır ve hata ayıklamayı kolaylaştırır.
+            </div>
         </section>
 
         <footer>
