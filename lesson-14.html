@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bölüm 14: While ve Do-While Döngüleri</title>
+    <title>Bölüm 14: Fonksiyonlar</title>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -64,7 +64,7 @@
 
         p {
             color: var(--text-secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.0rem;
             line-height: 1.7;
         }
 
@@ -118,58 +118,62 @@
         
 
         <header>
-            <h1>Bölüm 14: While ve Do-While Döngüleri</h1>
+            <h1>Bölüm 14: Fonksiyonlar</h1>
         </header>
 
         <section>
-            <p>Yazılımda belirli bir koşulun doğruluğuna bağlı olarak işlemlerin tekrarlanmasını sağlayan kontrol yapılarından biri <strong><code>while</code> döngüsüdür</strong>. Koşul sağlandığı sürece blok içerisindeki kodlar çalışmaya devam eder.</p>
+            <p>C ve C++ temelli dillerde geliştirme yaparken en temel yaklaşımlardan biri <strong>fonksiyonlaştırma (böl ve yönet mantığı)</strong> prensibidir. Devasa ve karmaşık tek bir kod bloğu yazmak yerine, her biri belirli tek bir işi yapmaya odaklanmış küçük fonksiyonlar oluşturmak kodun okunabilirliğini, hata ayıklamasını ve sürdürülebilirliğini büyük ölçüde artırır.</p>
         </section>
 
         <section>
-            <h2>1. While Döngüsünün Yapısı ve Çalışma Mantığı</h2>
-            <p><code>while</code> döngüsü, parantez içerisindeki şartın (True) kontrolüyle başlar. Sayacın döngü dışında tanımlanması ve döngü içerisinde mutlaka güncellenmesi gerekir, aksi takdirde program <strong>sonsuz döngüye</strong> girer.</p>
+            <h2>1. Fonksiyonların Yapısı ve Temel Tipleri</h2>
+            <p>Arduino'da projeye ilk başlandığından beri kullanılan <code>setup()</code> ve <code>loop()</code> da aslında birer fonksiyondur. Fonksiyonlar temel olarak <em>değer döndürüp döndürmemelerine</em> ve <em>parametre alıp almamalarına</em> göre 4 gruba ayrılır:</p>
             
-            <pre><code class="language-cpp">void setup() {
-  Serial.begin(9600);
-
-  int sayac = 0;
-  
-  // sayac 5'ten küçük olduğu sürece çalışır
-  while (sayac < 5) {
-    Serial.println(sayac);
-    sayac++; // Değer artırılmazsa sonsuz döngü oluşur
-  }
-}
-
-void loop() {
-}</code></pre>
-        </section>
-
-        <section>
-            <h2>2. Do-While Döngüsü</h2>
-            <p>Normal <code>while</code> döngüsünde koşul baştan kontrol edilir; eğer şart başlangıçta yanlışsa döngü hiç çalışmaz. Ancak <strong><code>do-while</code></strong> döngüsünde blok koşula bakılmaksızın <strong>en az bir kez</strong> mutlaka çalıştırılır, koşul kontrolü ise döngünün <em>sonunda</em> yapılır.</p>
-            
-            <pre><code class="language-cpp">void setup() {
-  Serial.begin(9600);
-
-  int sayaci = 10;
-
-  do {
-    Serial.println(sayaci);
-    sayaci++;
-  } while (sayaci < 5); // Şart yanlış olsa bile blok en az 1 kez çalışmıştır
-}
-
-void loop() {
-}</code></pre>
-        </section>
-
-        <section>
-            <h2>3. Kullanım Alanları ve Dikkat Edilmesi Gerekenler</h2>
             <ul>
-                <li><strong>Sonsuz Döngü Riski:</strong> Sayaç artırımı veya koşulu değiştirecek parametre unutulursa mikrodenetleyici kilitlenebilir.</li>
-                <li><strong>Sensör ve Seri Port Beklemeleri:</strong> Belirli bir dış koşul oluşana kadar (örneğin butona basılana ya da seri porttan veri gelene kadar) programı bekletmek için sıklıkla tercih edilir.</li>
+                <li><strong>Değer Döndüren ve Parametre Alan:</strong> Dışarıdan veri alıp işlem yapar ve sonuçta çağrıldığı yere bir değer geri (`return`) gönderir.</li>
+                <li><strong>Değer Döndürmeyen (void) ve Parametre Alan:</strong> Dışarıdan veri alır ancak işlem sonucunu geri döndürmez (örneğin ekrana yazdırma işlemleri).</li>
+                <li><strong>Değer Döndürmeyen (void) ve Parametre Almayan:</strong> Dışarıdan parametre almadan, mevcut değişkenler üzerinde doğrudan işlem yapar (örneğin değişkenleri sıfırlama).</li>
+                <li><strong>Değer Döndüren ve Parametre Almayan:</strong> Parametre almaz ancak global değişkenleri kullanarak bir sonuç hesaplayıp geri döndürür.</li>
             </ul>
+
+            <pre><code class="language-cpp">// Örnek: Değer döndüren ve parametre alan fonksiyon tanımı ve kullanımı
+int a = 5;
+int b = 7;
+int sonuc = 0;
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Fonksiyona parametre gönderilir, dönen sonuç değişkene atanır
+  sonuc = hesapla(a, b); 
+  Serial.println(sonuc);
+}
+
+void loop() {}
+
+// Fonksiyon gövdesi
+int hesapla(int x, int y) {
+  int toplam = (x + y) / 2 + 5;
+  return toplam; // Sonucu geri döndürür
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>2. Neden Fonksiyon Kullanmalıyız?</h2>
+            <ul>
+                <li><strong>Kod Tekrarını Önleme:</strong> Aynı matematiksel veya mantıksal işlemi projenin farklı yerlerinde tekrar tekrar yazmak yerine tek bir fonksiyon üzerinden yönetebilirsiniz.</li>
+                <li><strong>Kolay Bakım ve Güncelleme:</strong> Projede binlerce satırlık kod içindeki bir formülü değiştirmek gerektiğinde, her yeri tek tek değiştirmek yerine sadece ilgili fonksiyonu güncellemek yeterlidir.</li>
+                <li><strong>Okunabilirlik ve Temiz Kod:</strong> Fonksiyon isimleri yaptıkُları işi açıkça ifade etmeli (örneğin emir kipi gibi: <code>hesapla</code>, <code>ekranaYaz</code>, <code>sifirla</code>). Eğer bir fonksiyona isim verirken zorlanıyorsanız, muhtemelen birden fazla işi aynı anda yapmaya çalışıyordur.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Sık Yapılan Hatalar</h2>
+            <ol>
+                <li><strong>Yanlış Parametre Tanımlaması:</strong> Fonksiyon çağrılırken veya tanımlanırken değişken tanımlar gibi araya virgül yerine hatalı ifadeler koymak (Örn: <code>int x, y</code> yerine <code>int x int y</code> yazmak).</li>
+                <li><strong>Gereksiz Noktalı Virgül:</strong> Fonksiyon başlığı ile süslü parantez arasına hatalı bir şekilde noktalı virgül yerleştirmek.</li>
+                <li><strong>Yerel ve Global Karışıklığı:</strong> Fonksiyona gelen parametre adları ile içerideki yerel değişkenlerin çakıştırılmasına dikkat edilmelidir.</li>
+            </ol>
         </section>
 
         <footer>
