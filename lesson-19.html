@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 19: Arduino Analog Çıkış İşlemleri ve PWM Tekniği</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 19: Arduino Analog Çıkış İşlemleri ve PWM Tekniği</h1>
+        </header>
+
+        <section>
+            <p>Arduino Uno üzerinde donanımsal bir DAC (Dijital-Analog Dönüştürücü) bulunmadığı için doğrudan ara gerilim değerlerinde analog çıkış üretilemez. Ancak kontrol uygulamalarında analog etki elde edebilmek için <strong>PWM (Darbe Genişlik Modülasyonu)</strong> adı verilen özel bir teknik kullanılır.</p>
+        </section>
+
+        <section>
+            <h2>1. PWM (Pulse Width Modulation) Nedir?</h2>
+            <ul>
+                <li><strong>Çalışma Prensibi:</strong> Dijital pinlerin çok yüksek frekansta hızla açılıp kapatılması (HIGH/LOW yapılması) suretiyle ortalama bir gerilim etkisi yaratılmasıdır. Gözümüz veya bağlı olan cihaz (motor, LED vb.) bu hızlı değişimleri yakalayamaz ve ortalama değeri hisseder.</li>
+                <li><strong>PWM Destekli Pinler:</strong> Arduino Uno üzerinde yanında tilde işareti (`~`) bulunan pinler PWM çıkışı destekler: <strong>3, 5, 6, 9, 10 ve 11</strong> numaralı pinler.</li>
+                <li><strong>Değer Aralığı (`analogWrite`):</strong> PWM çıkışı vermek için <code>analogWrite(pin, deger)</code> fonksiyonu kullanılır. Buradaki değer <strong>0 ile 255</strong> arasındadır:
+                    <ul>
+                        <li><code>0</code>: %0 Doluluk Oranı (0 Volt / Tamamen Kapalı)</li>
+                        <li><code>127</code>: %50 Doluluk Oranı (Yaklaşık 2.5 Volt / Yarı Parlaklık)</li>
+                        <li><code>255</code>: %100 Doluluk Oranı (5 Volt / Tam Parlaklık)</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Kod Örneği: LED Parlaklığını Kademeli Değiştirme (Fading)</h2>
+            <p>Aşağıdaki örnekte PWM kullanılarak bir LED'in parlaklığı yavaş yavaş artırılmakta ve ardından azaltılmaktadır:</p>
+
+            <pre><code class="language-cpp">int ledPin = 9; // PWM destekli pin
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  // Parlaklığı yavaş yavaş artır (0'dan 255'e)
+  for (int parlaklik = 0; parlaklik <= 255; parlaklik++) {
+    analogWrite(ledPin, parlaklik);
+    delay(10); // Her adımda 10 milisaniye bekle
+  }
+
+  // Parlaklığı yavaş yavaş azalt (255'ten 0'a)
+  for (int parlaklik = 255; parlaklik >= 0; parlaklik--) {
+    analogWrite(ledPin, parlaklik);
+    delay(10); // Her adımda 10 milisaniye bekle
+  }
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Kullanım Alanları</h2>
+            <p>PWM tekniği yalnızca LED parlaklık kontrolünde değil; aynı zamanda DC motorların hız kontrolünde, hobi servolarının konumlandırılmasında ve buzzer ile ses/frekans üretiminde yaygın olarak kullanılmaktadır.</p>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
