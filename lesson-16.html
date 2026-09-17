@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bölüm 16: Arduino Dijital Pinlerini Çıkış Olarak Kullanmak</title>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ortak Tasarım Sistemi Dosyası -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Kod renklendirmesi için Prism.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--sunlit-clay);
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: var(--sunlit-clay);
+            margin-bottom: 1.0rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.0rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            list-style-position: inside;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.0rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        pre {
+            background-color: var(--disabled-bg) !important;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin-top: 1.0rem;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace, Consolas, Monaco;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Akışkan Arka Plan Katmanı -->
+    <div class="fluid-bg"></div>
+
+    <div class="container">
+        <a href="./" class="badge back-link">← Ana Sayfaya Dön</a>
+        
+
+        <header>
+            <h1>Bölüm 16: Arduino Dijital Pinlerini Çıkış Olarak Kullanmak</h1>
+        </header>
+
+        <section>
+            <p>Arduino Uno üzerinde 0'dan 13'e kadar numaralandırılmış toplam 14 adet dijital pin bulunur. Bu pinler hem dijital giriş hem de dijital çıkış (digital write/read) işlemleri için kullanılabilir.</p>
+        </section>
+
+        <section>
+            <h2>1. Arduino Uno Dijital Pin Yapısı ve Özel Pinler</h2>
+            <ul>
+                <li><strong>PWM Pinleri (~):</strong> 3, 5, 6, 9, 10 ve 11 numaralı pinlerin yanında bulunan dalga işareti, bu pinlerin PWM (Darbe Genişlik Modülasyonu) çıkışı olarak da kullanılabileceğini gösterir.</li>
+                <li><strong>TX ve RX Pinleri (0 ve 1):</strong> Haberleşme pinleridir. USB üzerinden bilgisayarla seri haberleşme yapılırken kullanılırlar. Kod yüklerken veya seri monitör kullanılırken bu pinlerin boşta olması önerilir; aksi takdirde bağlantılar iletişimi bozabilir.</li>
+                <li><strong>Akım Sınırları:</strong> Pin başına maksimum 40 mA akım çekilebilir (tavsiye edilen güvenli sınır pin başı azami 20 mA, toplamda ise 200 mA'i geçmemektir).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Dijital Çıkış Komutları (`pinMode` ve `digitalWrite`)</h2>
+            <p>Bir dijital pinden enerji çıkışı alabilmek (örneğin bir LED'i yakmak) için öncelikle <code>pinMode</code> fonksiyonu ile pinin modunu <code>OUTPUT</code> olarak ayarlamamız gerekir. Ardından <code>digitalWrite</code> fonksiyonu ile pini aktif (`HIGH`) veya pasif (`LOW`) duruma getirebiliriz.</p>
+            <ul>
+                <li><strong>HIGH (Lojik 1):</strong> Arduino Uno için <strong>5 Volt</strong> çıkış gerilimi demektir.</li>
+                <li><strong>LOW (Lojik 0):</strong> <strong>0 Volt</strong> (Toprak / GND) demektir.</li>
+            </ul>
+
+            <pre><code class="language-cpp">// Değişken tanımlamaları ile pin yönetimi (Kod okunabilirliğini artırır)
+int ledRed = 2;
+int ledBlue = 3;
+int ledGreen = 4;
+int ledYellow = 5;
+
+void setup() {
+  // Pinlerin çıkış olarak ayarlanması
+  pinMode(ledRed, OUTPUT);
+  pinMode(ledBlue, OUTPUT);
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledYellow, OUTPUT);
+}
+
+void loop() {
+  // Tüm LED'leri yak
+  digitalWrite(ledRed, HIGH);
+  digitalWrite(ledBlue, HIGH);
+  digitalWrite(ledGreen, HIGH);
+  digitalWrite(ledYellow, HIGH);
+  
+  delay(1000); // 1 saniye bekle
+  
+  // Tüm LED'leri söndür
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledBlue, LOW);
+  digitalWrite(ledGreen, LOW);
+  digitalWrite(ledYellow, LOW);
+  
+  delay(1000); // 1 saniye bekle
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. En İyi Uygulamalar</h2>
+            <p>Donanım bağlantılarında karmaşayı önlemek ve hangi pinin nereye bağlı olduğunu kolayca hatırlayabilmek için doğrudan sayısal pin numaraları yerine anlamlı değişken isimleri (örneğin <code>ledGreen</code>) kullanmak her zaman daha temiz bir yazılım yaklaşımıdır.</p>
+        </section>
+
+        <footer>
+            <p>Arduino Ders Serisi • Merve Göncü</p>
+        </footer>
+    </div>
+
+    <!-- Kod renklendirme betiği -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
